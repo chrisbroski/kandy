@@ -1,9 +1,1 @@
-.idea
 .DS_Store
-node_modules/
-package-lock.json
-.env
-data.json
-*.backup
-www/rendered/
-www/photos/

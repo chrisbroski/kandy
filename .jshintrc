@@ -2,10 +2,8 @@
     "undef": true,
     "unused": true,
     "esversion": 6,
+    "browser": true,
     "globals": {
-        "Aerophane": false,
-        "document": false,
-        "XMLHttpRequest": false,
-        "window": false
+        "Aerophane": false
     }
 }
