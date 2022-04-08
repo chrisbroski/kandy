@@ -32,6 +32,7 @@ iframe.spotify-player-sm {
 <script type="text/javascript" src="/inc/Aerophane.js"></script>
 <script type="text/javascript" src="/inc/main.js"></script>
 <script>
+
 function showSong(songData) {
     var article = document.querySelector("main article");
     var section = document.createElement("section");
@@ -72,6 +73,20 @@ function showSong(songData) {
         section.appendChild(p);
     });
     article.appendChild(section);
+
+    if (songData.video.fb || songData.video.youtube) {
+        section = document.createElement("section");
+        h2 = document.createElement("h2");
+        h2.textContent = "Videos";
+        section.appendChild(h2);
+        if (songData.video.fb) {
+            section.appendChild(embedFbPlayer(songData.video.fb));
+        }
+        if (songData.video.youtube) {
+            section.appendChild(embedYtPlayer(songData.video.fb));
+        }
+        article.appendChild(section);
+    }
 
     var pre;
     if (songData.lyrics) {

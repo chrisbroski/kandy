@@ -8,7 +8,6 @@
 <style>
 iframe.spotify-player-sm {
     margin: 12px 0;
-    /* float: right; */
     max-width: 300px;
 }
 </style>
@@ -105,6 +104,21 @@ function showRelease(release) {
             p.appendChild(a);
             section.appendChild(p);
         });
+        article.appendChild(section);
+    }
+
+    if (release.video.fb || release.video.youtube) {
+        section = document.createElement("section");
+        h2 = document.createElement("h2");
+        h2.textContent = "Videos";
+        section.appendChild(h2);
+
+        if (release.video.fb) {
+            section.appendChild(embedFbPlayer(release.video.fb));
+        }
+        if (release.video.youtube) {
+            section.appendChild(embedYtPlayer(release.video.youtube));
+        }
         article.appendChild(section);
     }
 

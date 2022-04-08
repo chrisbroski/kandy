@@ -130,6 +130,7 @@ function gigInfoDiv(gig) {
 function gigMapDiv(gig) {
     var div = document.createElement("div");
     var iframe = document.createElement("iframe");
+    iframe.className = "map";
 
     iframe.loading = "lazy";
     iframe.src = `https://www.google.com/maps/embed/v1/place?q=${encodeURIComponent(gig.venueData.name)}%2C+${encodeURIComponent(gig.venueData.city)}+${encodeURIComponent(gig.venueData.state)}&key=${gig.venueData.MAP_KEY}`;
@@ -219,4 +220,69 @@ function querystring(key) {
     var oRe = new RegExp("[\\?&]" + key + "=([^&#]*)");
     var val = oRe.exec(parent.location.search);
     return (val) ? decodeURIComponent(val[1]) : "";
+}
+
+function removeQs(fullUrl) {
+    if (!fullUrl) {
+        return '';
+    }
+    if (fullUrl.indexOf('?') === -1) {
+        return fullUrl;
+    }
+    return fullUrl.slice(0, fullUrl.indexOf('?'));
+}
+
+function removeHash(fullUrl) {
+    if (!fullUrl) {
+        return '';
+    }
+    if (fullUrl.indexOf('#') === -1) {
+        return fullUrl;
+    }
+    return fullUrl.slice(0, fullUrl.indexOf('#'));
+}
+
+function extractYouTubeId(url) {
+    var reQs, val;
+    if (!url) {
+        return "";
+    }
+    // get rid of any search string or hash
+    url = removeQs(url);
+    url = removeHash(url);
+
+    reQs = new RegExp("[.*]youtube.com/(embed/|watch\?v=)([^?#]*)", "i");
+
+    val = reQs.exec(url);
+    if (val && val[2]) {
+        return val[2];
+    }
+
+    reQs = new RegExp("https://youtu.be/([^?#]*)", "i");
+    val = reQs.exec(url);
+    if (val && val[1]) {
+        return val[1];
+    }
+    return url;
+}
+
+function embedYtPlayer(url) {
+    var iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube.com/embed/${extractYouTubeId(url)}`;
+    iframe.className = "vid";
+    iframe.title = "YouTube video player";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+    iframe.setAttribute("allowFullScreen", "");
+    return iframe;
+}
+
+function embedFbPlayer(url) {
+    var iframe = document.createElement("iframe");
+    iframe.src = `https://www.facebook.com/plugins/video.php?height=317&href=${encodeURIComponent(url)}%2F&show_text=false&width=560&t=0`;
+    iframe.className = "vid";
+    iframe.scrolling = "no";
+    iframe.allowfullscreen = "true";
+    iframe.allow = "autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share";
+    iframe.allowFullScreen = "true";
+    return iframe;
 }
