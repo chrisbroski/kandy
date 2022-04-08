@@ -81,6 +81,9 @@ function showGigs(gigData) {
         section.appendChild(h3);
     });
 
+    if (!section) {
+        section = document.createElement("section")
+    }
     shows.appendChild(section);
 }
 
