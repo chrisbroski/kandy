@@ -4,6 +4,8 @@
     "esversion": 6,
     "browser": true,
     "globals": {
-        "Aerophane": false
+        "Aerophane": false,
+        "console": false,
+        "bandNanme": false
     }
 }

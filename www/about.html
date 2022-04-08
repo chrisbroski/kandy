@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <title>About</title>
-<meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 <link rel="stylesheet" type="text/css" href="/inc/main.css">
 
@@ -23,9 +22,11 @@
 <script type="text/javascript" src="/inc/main.js"></script>
 <script type="text/javascript" src="/inc/showdown.min.js"></script>
 <script>
+var converter = new showdown.Converter({"noHeaderId": true});
+
 function showAbout(aboutData) {
     var contact = document.querySelector("main#about article > section:first-child");
-    var converter = new showdown.Converter({"noHeaderId": true});
+    // var converter = new showdown.Converter({"noHeaderId": true});
     var page = document.querySelector("main#about article");
 
     var div = document.createElement("div");
@@ -44,5 +45,5 @@ function showAbout(aboutData) {
 }
 
 setTitle();
-getJsonData("/api/home", showAbout);
+getJsonData("/api/band", showAbout);
 </script>

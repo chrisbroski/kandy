@@ -100,7 +100,7 @@ function gigInfoDiv(gig) {
         div.appendChild(h3);
     }
 
-    h3 = document.createElement("h3");
+    h3 = document.createElement("h4");
     h3.textContent = `${months[date.getMonth()]} ${date.getDate()}`;
     h3.appendChild(ord(date.getDate()));
     h3.appendChild(document.createTextNode(`, ${date.getFullYear()}`));
@@ -178,8 +178,45 @@ function moreButton(link, text) {
     return more;
 }
 
-function setTitle() {
-    getJsonData("/api/home/", function (info) {
+var bandName;
+function setTitle(callback) {
+    getJsonData("/api/band/", function (info) {
+        // console.log(info);
         document.title = `${document.title} - ${info.name}`;
+        bandName = info.name;
+        if (callback) {
+            callback();
+        }
     });
+}
+
+function ord(num) {
+    var sup = document.createElement("sup");
+    var ordText = "th";
+    num = num.toString(10);
+    if (num.slice(-1) === "1") {
+        ordText = "st";
+    }
+    if (num.slice(-1) === "2") {
+        ordText = "nd";
+    }
+    if (num.slice(-1) === "3") {
+        ordText = "rd";
+    }
+    sup.textContent = ordText;
+    return sup;
+}
+
+function dateFormat(date) {
+    var text = document.createDocumentFragment();
+    text.appendChild(document.createTextNode(`${months[date.getMonth()]} ${date.getDate()}`));
+    text.appendChild(ord(date.getDate()));
+    text.appendChild(document.createTextNode(`, ${date.getFullYear()}`));
+    return text;
+}
+
+function querystring(key) {
+    var oRe = new RegExp("[\\?&]" + key + "=([^&#]*)");
+    var val = oRe.exec(parent.location.search);
+    return (val) ? decodeURIComponent(val[1]) : "";
 }

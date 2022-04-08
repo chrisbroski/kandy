@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Music Releases</title>
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<link rel="stylesheet" type="text/css" href="/inc/main.css">
+
+<body>
+
+<!--#include file="/api/header.pht" -->
+
+<main>
+<article>
+    <section class="col2">
+        <div>
+            <h1>Releases</h1>
+            <p><a href="/songs" class="more">All Songs</a></p>
+        </div>
+        <div>
+            <img src="/photo/image0000081.jpg">
+        </div>
+    </section>
+</article>
+</main>
+
+<script type="text/javascript" src="/inc/Aerophane.js"></script>
+<script type="text/javascript" src="/inc/showdown.min.js"></script>
+<script type="text/javascript" src="/inc/main.js"></script>
+<script>
+var converter = new showdown.Converter({"noHeaderId": true});
+
+function showGigs(gigData) {
+    var shows = document.querySelector("#all-shows");
+    gigData.gigs.forEach(function (gig, idx) {
+        var section = document.createElement("section");
+        section.className = "col2";
+
+        section.appendChild(gigInfoDiv(gig));
+        section.appendChild(gigMapDiv(gig));
+        shows.appendChild(section);
+    });
+}
+
+function showReleases(releaseData) {
+    var article = document.querySelector("article");
+    var section;
+    var div;
+    var h2;
+    var h3;
+    var a;
+    var img;
+
+    releaseData.forEach(function (release) {
+        section = document.createElement("section");
+        section.className = "col2";
+        div = document.createElement("div");
+        div.innerHTML = converter.makeHtml(release.desc);
+        h3 = document.createElement("h3");
+        // h3.textContent = release.date;
+        h3.appendChild(dateFormat(new Date(Date.parse(release.date))));
+        div.insertBefore(h3, div.firstChild);
+        h2 = document.createElement("h2");
+        a = document.createElement("a");
+        a.href = `/release?id=${release.id}`;
+        if (release.name) {
+            a.textContent = release.name;
+        } else {
+            a.textContent = release.songs[0].name;
+        }
+        h2.appendChild(a);
+        div.insertBefore(h2, h3);
+        section.appendChild(div);
+
+        div = document.createElement("div");
+        if (release["cover-front"]) {
+            img = document.createElement("img");
+            img.src = `/photo/${release["cover-front"]}`;
+            div.appendChild(img);
+        }
+        section.appendChild(div);
+
+        article.appendChild(section);
+    });
+}
+
+setTitle();
+getJsonData("/api/release", showReleases);
+// getJsonData("/api/gig/?range=upcoming", showGigs);
+</script>

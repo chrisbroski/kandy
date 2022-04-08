@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Music</title>
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<link rel="stylesheet" type="text/css" href="/inc/main.css">
+<style>
+iframe.spotify-player-sm {
+    float: right;
+    max-width: 300px;
+}
+</style>
+<body>
+
+<!--#include file="/api/header.pht" -->
+
+<main>
+<article>
+    <section class="col2">
+        <div>
+            <h1>Song</h1>
+            <a href="/songs" class="more">All Songs</a>
+        </div>
+        <div>
+            <img src="/photo/ab6761670000ecd44440e04613026131c7dc3f6e.jpeg">
+        </div>
+    </section>
+</article>
+</main>
+
+<script type="text/javascript" src="/inc/Aerophane.js"></script>
+<script type="text/javascript" src="/inc/main.js"></script>
+<script>
+function showSong(songData) {
+    var article = document.querySelector("main article");
+    var section = document.createElement("section");
+
+    var h2 = document.createElement("h2");
+    h2.textContent = songData.name;
+    section.appendChild(h2);
+    var h3 = document.createElement("h3");
+    h3.textContent = songData.artist || bandName;
+    section.appendChild(h3);
+
+    // audio embed
+    if (songData.audio.spotify) {
+        //
+        section.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(songData.audio.spotify), "track"));
+    }
+
+    var p;
+    if (songData.desc) {
+        p = document.createElement("p");
+        p.textContent = songData.desc;
+        section.appendChild(p);
+    }
+
+    // Releases
+    var a;
+    songData.releases.forEach(function (r) {
+        p = document.createElement("p");
+        a = document.createElement("a");
+        a.href = `/release?id=${r.id}`;
+        if (r.name) {
+            p.textContent = `Released ${r.date} on `;
+            a.textContent = r.name;
+        } else {
+            a.textContent = `Released on ${r.date}`;
+        }
+        p.appendChild(a);
+        section.appendChild(p);
+    });
+    article.appendChild(section);
+
+    var pre;
+    if (songData.lyrics) {
+        section = document.createElement("section");
+        h2 = document.createElement("h2");
+        h2.textContent = 'Lyrics';
+        section.appendChild(h2);
+        var pre = document.createElement("pre");
+        pre.textContent = songData.lyrics;
+        section.appendChild(pre);
+        article.appendChild(section);
+    }
+}
+
+setTitle(function () {
+    getJsonData(`/api/song/${querystring("id")}`, showSong);
+});
+// getJsonData("/api/gig/?range=past", showGigs);
+</script>

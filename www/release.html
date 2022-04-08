@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Music</title>
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<link rel="stylesheet" type="text/css" href="/inc/main.css">
+<style>
+iframe.spotify-player-sm {
+    margin: 12px 0;
+    /* float: right; */
+    max-width: 300px;
+}
+</style>
+<body>
+
+<!--#include file="/api/header.pht" -->
+
+<main>
+<article>
+    <section class="col2">
+        <div>
+            <h1>Song</h1>
+            <a href="/songs" class="more">All Songs</a>
+        </div>
+        <div>
+            <img src="/photo/ab6761670000ecd44440e04613026131c7dc3f6e.jpeg">
+        </div>
+    </section>
+</article>
+</main>
+
+<script type="text/javascript" src="/inc/Aerophane.js"></script>
+<script type="text/javascript" src="/inc/main.js"></script>
+<script>
+function showRelease(release) {
+    var article = document.querySelector("main article");
+    var section = document.createElement("section");
+    section.className = 'col2';
+    var div = document.createElement("div");
+    var a;
+
+    var h2 = document.createElement("h2");
+    var releaseName;
+    if (release.songs.length === 1) {
+        a = document.createElement("a");
+        a.href = `/song?id=${release.songs[0].id}`;
+        a.textContent = release.songs[0].name;
+        h2.appendChild(a);
+    } else {
+        releaseName = release.name;
+        if (!releaseName) {
+            releaseName = `${release.date} Release`;
+        }
+        h2.textContent = releaseName;
+    }
+    div.appendChild(h2);
+    var h3 = document.createElement("h3");
+    h3.appendChild(dateFormat(new Date(Date.parse(release.date))));
+    // h3.textContent = ;
+    div.appendChild(h3);
+
+    var p;
+    if (release.desc) {
+        p = document.createElement("p");
+        p.textContent = release.desc;
+        div.appendChild(p);
+    }
+
+    // audio embed
+    if (release.audio.spotify) {
+        div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.audio.spotify), "album"));
+    } else if (release.songs.length === 1) {
+        div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.songs[0].audio.spotify), "track"));
+    }
+    section.appendChild(div);
+
+    div = document.createElement("div");
+    var img;
+    if (release["cover-front"]) {
+        img = document.createElement("img");
+        img.src = `/photo/${release["cover-front"]}`;
+        div.appendChild(img);
+    }
+    if (release["cover-back"]) {
+        img = document.createElement("img");
+        img.src = `/photo/${release["cover-back"]}`;
+        div.appendChild(img);
+    }
+    section.appendChild(div);
+    article.appendChild(section);
+
+    var p;
+    if (release.songs.length > 1) {
+        section = document.createElement("section");
+        h2 = document.createElement("h2");
+        h2.textContent = "Album Tracks";
+        section.appendChild(h2);
+
+        release.songs.forEach(s => {
+            p = document.createElement("p");
+            a = document.createElement("a");
+            a.href = `/song?id=${s.id}`;
+            a.textContent = s.name;
+            p.appendChild(a);
+            section.appendChild(p);
+        });
+        article.appendChild(section);
+    }
+
+    var pre;
+    if (release.credits) {
+        section = document.createElement("section");
+        h2 = document.createElement("h2");
+        h2.textContent = "Credits";
+        section.appendChild(h2);
+        pre = document.createElement("pre");
+        pre.textContent = release.credits;
+        section.appendChild(pre);
+        article.appendChild(section);
+    }
+}
+
+setTitle(function () {
+    getJsonData(`/api/release/${querystring("id")}`, showRelease);
+});
+</script>
