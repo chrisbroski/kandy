@@ -56,14 +56,12 @@ function showRelease(release) {
     div.appendChild(h2);
     var h3 = document.createElement("h3");
     h3.appendChild(dateFormat(new Date(Date.parse(release.date))));
-    // h3.textContent = ;
     div.appendChild(h3);
 
-    var p;
+    var template = document.createElement("template");
     if (release.desc) {
-        p = document.createElement("p");
-        p.textContent = release.desc;
-        div.appendChild(p);
+        template.innerHTML = converter.makeHtml(release.desc);
+        div.appendChild(template.content);
     }
 
     // audio embed
@@ -107,7 +105,7 @@ function showRelease(release) {
         article.appendChild(section);
     }
 
-    if (release.video.fb || release.video.youtube) {
+    if (release.video && (release.video.fb || release.video.youtube)) {
         section = document.createElement("section");
         h2 = document.createElement("h2");
         h2.textContent = "Videos";

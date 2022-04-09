@@ -70,6 +70,13 @@ function showReleases(releaseData) {
         }
         h2.appendChild(a);
         div.insertBefore(h2, h3);
+
+        // audio embed
+        if (release.audio.spotify) {
+            div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.audio.spotify), "album"));
+        } else if (release.songs.length === 1) {
+            div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.songs[0].audio.spotify), "track"));
+        }
         section.appendChild(div);
 
         div = document.createElement("div");
