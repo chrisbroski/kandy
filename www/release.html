@@ -10,6 +10,15 @@ iframe.spotify-player-sm {
     margin: 12px 0;
     max-width: 300px;
 }
+section.col2 div p > a > img {
+    margin: 0;
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+}
+section.col2 div p > a {
+    font-weight: bold;
+}
 </style>
 <body>
 
@@ -29,9 +38,12 @@ iframe.spotify-player-sm {
 </article>
 </main>
 
+<script type="text/javascript" src="/inc/showdown.min.js"></script>
 <script type="text/javascript" src="/inc/Aerophane.js"></script>
 <script type="text/javascript" src="/inc/main.js"></script>
 <script>
+var converter = new showdown.Converter({"noHeaderId": true});
+
 function showRelease(release) {
     var article = document.querySelector("main article");
     var section = document.createElement("section");
@@ -69,6 +81,68 @@ function showRelease(release) {
         div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.audio.spotify), "album"));
     } else if (release.songs.length === 1) {
         div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.songs[0].audio.spotify), "track"));
+    }
+    var p;
+    var icon;
+    if (release.songs.length === 1) {
+        if (release.songs[0].lyrics) {
+            p = document.createElement("p");
+            a = document.createElement("a");
+            a.href = `/song?id=${release.songs[0].id}#lyrics`;
+            a.title = "Lyrics";
+            icon = document.createElement("img");
+            icon.src = "/img/social/lyrics.svg";
+            icon.className = "icon";
+            a.appendChild(icon);
+            p.appendChild(a);
+            p.appendChild(document.createTextNode(" "));
+
+            a = document.createElement("a");
+            a.href = `/song?id=${release.songs[0].id}#lyrics`;
+            a.title = "Lyrics";
+            a.textContent = "Lyrics";
+            p.appendChild(a);
+            div.appendChild(p);
+        }
+        if (release.songs[0].video) {
+            if (release.songs[0].video.youtube) {
+                p = document.createElement("p");
+                a = document.createElement("a");
+                a.href = release.songs[0].video.youtube;
+                a.title = "Watch on YouTube";
+                icon = document.createElement("img");
+                icon.src = "/img/social/youtube.svg";
+                icon.className = "icon";
+                a.appendChild(icon);
+                p.appendChild(a);
+                p.appendChild(document.createTextNode(" "));
+
+                a = document.createElement("a");
+                a.href = release.songs[0].video.youtube;
+                a.title = "Watch on YouTube";
+                a.textContent = "YouTube video";
+                p.appendChild(a);
+                div.appendChild(p);
+            }
+            if (release.songs[0].video.fb) {
+                p = document.createElement("p");
+                a = document.createElement("a");
+                a.href = release.songs[0].video.fb;
+                a.title = "Watch on Facebook";
+                icon = document.createElement("img");
+                icon.src = "/img/social/facebook-video.svg";
+                a.appendChild(icon);
+                p.appendChild(a);
+                p.appendChild(document.createTextNode(" "));
+
+                a = document.createElement("a");
+                a.href = release.songs[0].video.fb;
+                a.title = "Watch on Facebook";
+                a.textContent = "Facebook video";
+                p.appendChild(a);
+                div.appendChild(p);
+            }
+        }
     }
     section.appendChild(div);
 

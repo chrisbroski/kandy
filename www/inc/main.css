@@ -369,6 +369,25 @@ section.col2 > div img:not(:first-child) {
     margin-top: 12px;
 }
 
+main section.list h3 {
+    margin: 1em 0;
+}
+main section.list h3 span {
+    padding: 0 1em 0 0.5em;
+    font-weight: normal;
+    font-size: smaller;
+    color: white;
+}
+main section.list h3 img {
+    margin: 0 1em 0 0;
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+}
+img.icon {
+    filter: brightness(0) saturate(100%) invert(40%) sepia(100%) saturate(552%) hue-rotate(345deg) brightness(96%) contrast(88%);
+}
+
 /* large-screen version */
 @media (min-width: 800px) {
     body {

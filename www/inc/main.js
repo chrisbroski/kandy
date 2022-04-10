@@ -167,6 +167,7 @@ function embedSpotifyPlayer(id, type) {
     iframe.className = "spotify-player-sm";
     iframe.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
     iframe.src = `https://open.spotify.com/embed/${type}/${id}`;
+    iframe.loading = "lazy";
     return iframe;
 }
 
@@ -273,6 +274,7 @@ function embedYtPlayer(url) {
     iframe.title = "YouTube video player";
     iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
     iframe.setAttribute("allowFullScreen", "");
+    iframe.loading = "lazy";
     return iframe;
 }
 
@@ -284,5 +286,6 @@ function embedFbPlayer(url) {
     iframe.allowfullscreen = "true";
     iframe.allow = "autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share";
     iframe.allowFullScreen = "true";
+    iframe.loading = "lazy";
     return iframe;
 }

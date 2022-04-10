@@ -34,15 +34,16 @@ function songHasStuff(song) {
     if (song.audio.spotify || song.audio.youtube) {
         return true;
     }
-    if (song.video.youtube || song.video.fb) {
+    if (song.video && (song.video.youtube || song.video.fb)) {
         return true;
     }
     return false;
 }
 
 function showSongs(songData) {
-    var shows = document.querySelector("main > article");
+    var shows = document.querySelector("main article");
     var section = document.createElement("section");
+    section.className = "list";
 
     songData.forEach(function (song) {
         var h3 = document.createElement("h3");
@@ -50,6 +51,8 @@ function showSongs(songData) {
         // That's desc, lyrics, audio, video
         var a = document.createElement("a");
         var artist = document.createElement("span");
+        var icon;
+        var a;
         if (songHasStuff(song)) {
             a.href = `/song?id=${song.id}`;
             a.textContent = song.name;
@@ -59,7 +62,54 @@ function showSongs(songData) {
         } else {
             h3.textContent = song.name;
             artist.textContent = ` (${song.artist || bandName})`;
+            h3.appendChild(artist);
         }
+        if (song.audio.spotify) {
+            icon = document.createElement("img");
+            icon.src = "/img/social/spotify.svg";
+            icon.className = "icon";
+            a = document.createElement("a");
+            a.href = song.audio.spotify;
+            a.title = "Listen on Spotify";
+            a.target = "_blank";
+            a.appendChild(icon);
+            h3.appendChild(a);
+        }
+        if (song.lyrics) {
+            icon = document.createElement("img");
+            icon.src = "/img/social/lyrics.svg";
+            icon.className = "icon";
+            a = document.createElement("a");
+            a.href = `/song?id=${song.id}#lyrics`;
+            a.title = "Lyrics";
+            a.appendChild(icon);
+            h3.appendChild(a);
+        }
+        if (song.video) {
+            if (song.video.youtube) {
+                icon = document.createElement("img");
+                icon.src = "/img/social/youtube.svg";
+                icon.className = "icon";
+                a = document.createElement("a");
+                a.href = song.video.youtube;
+                a.title = "Watch on YouTube";
+                a.target = "_blank";
+                a.appendChild(icon);
+                h3.appendChild(a);
+            }
+            if (song.video.fb) {
+                icon = document.createElement("img");
+                icon.src = "/img/social/facebook-video.svg";
+                icon.className = "icon";
+                a = document.createElement("a");
+                a.href = song.video.fb;
+                a.title = "Watch on Facebook";
+                a.target = "_blank";
+                a.appendChild(icon);
+                h3.appendChild(a);
+            }
+        }
+
         section.appendChild(h3);
     });
 
