@@ -46,6 +46,7 @@ function showGigs(gigData) {
                 shows.appendChild(section);
             }
             section = document.createElement("section");
+            section.className = "list";
             h2 = document.createElement("h2");
             if (!year) {
                 year = date.getFullYear();
@@ -60,7 +61,7 @@ function showGigs(gigData) {
             }
         }
 
-        h3 = document.createElement("h4");
+        h3 = document.createElement("h3");
         if (gig.title) {
             h3.textContent = gig.title + " - ";
         }
