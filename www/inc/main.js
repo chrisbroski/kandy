@@ -180,12 +180,73 @@ function moreButton(link, text) {
     return more;
 }
 
+function navLink(href, iconName, menuName) {
+    var p = document.createElement("p");
+    var a = document.createElement("a");
+    var icon = document.createElement("span");
+    icon.className = "material-icons";
+    icon.textContent = iconName;
+    a.href = href;
+    a.appendChild(icon);
+    a.appendChild(document.createTextNode(` ${menuName}`));
+    p.appendChild(a);
+    return p;
+}
+
+var social = {
+    "fb": {"icon": "facebook.svg", "name": "Facebook"},
+    "spotify": {"icon": "spotify.svg", "name": "Spotify"},
+    "instagram": {"icon": "instagram.svg", "name": "Instagram"},
+    "youtube": {"icon": "youtube.svg", "name": "YouTube"},
+    "podcast": {"icon": "podcast.svg", "name": "Podcast"}
+};
+
 var bandName;
 function setTitle(callback) {
     getJsonData("/api/band/", function (info) {
-        // console.log(info);
         document.title = `${document.title} - ${info.name}`;
         bandName = info.name;
+
+        var header = document.createElement("header");
+        var button = document.createElement("button");
+        var icon = document.createElement("span");
+        icon.className = "material-icons";
+        icon.textContent = "menu";
+        button.appendChild(icon);
+        var h1 = document.createElement("header");
+        h1.textContent = bandName;
+        header.appendChild(button);
+        header.appendChild(h1);
+
+        var nav = document.createElement("nav");
+        nav.id = "main";
+        nav.appendChild(navLink("/", "home", "Home"));
+        nav.appendChild(navLink("/shows", "event", "Shows"));
+        nav.appendChild(navLink("/music", "album", "New Releases"));
+        nav.appendChild(navLink("/songs", "library_music", "All Songs"));
+        nav.appendChild(navLink("/about", "menu_book", "About"));
+
+        var p = document.createElement("p");
+        p.id = "social";
+        Object.keys(info.social).forEach(soc => {
+            var a;
+            var img;
+            if (info.social[soc]) {
+                a = document.createElement("a");
+                a.href = info.social[soc];
+                img = document.createElement("img");
+                img.alt = social[soc].name;
+                img.src = `/img/social/${social[soc].icon}`;
+                a.appendChild(img);
+                p.appendChild(a);
+                p.appendChild(document.createTextNode("\n"));
+            }
+        });
+        nav.appendChild(p);
+
+        document.body.insertBefore(nav, document.body.firstChild);
+        document.body.insertBefore(header, nav);
+
         if (callback) {
             callback();
         }

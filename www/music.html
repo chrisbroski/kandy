@@ -8,8 +8,6 @@
 
 <body>
 
-<!--#include file="/api/header.pht" -->
-
 <main>
 <article>
     <section class="col2">
@@ -91,7 +89,7 @@ function showReleases(releaseData) {
     });
 }
 
-setTitle();
-getJsonData("/api/release", showReleases);
-// getJsonData("/api/gig/?range=upcoming", showGigs);
+setTitle(function () {
+    getJsonData("/api/release", showReleases);
+});
 </script>

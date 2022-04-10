@@ -8,8 +8,6 @@
 
 <body>
 
-<!--#include file="/api/header.pht" -->
-
 <main id="home">
 <article></article>
 </main>
@@ -63,6 +61,8 @@ function showBandInfo(info) {
     }
 
     getJsonData("/api/announcement/?pinned=Y", showAnnouncements);
+    getJsonData("/api/gig/?range=upcoming", showShows);
+    getJsonData("/api/release/", showMusic);
 }
 
 function showShows(info) {
@@ -93,61 +93,6 @@ function showShows(info) {
     }
 }
 
-/*function showMusic(info) {
-    // console.log(info);
-    var article;
-    var section;
-    var h1;
-    var infoDiv;
-    var p;
-    var img;
-    var test = "asdf";
-
-    if (info.length > 0) {
-        article = document.createElement("article");
-        article.id = "music";
-        section = document.createElement("section");
-        section.className = "col2";
-        h1 = document.createElement("h1");
-        h1.textContent = "Music";
-        section.appendChild(h1);
-        infoDiv = document.createElement("div");
-
-        if (info[0].desc) {
-            infoDiv.innerHTML = converter.makeHtml(info[0].desc);
-        }
-        var h1 = document.createElement("h3");
-        h1.textContent = info[0].name;
-        infoDiv.insertBefore(h1, infoDiv.firstChild);
-
-        p = document.createElement("p");
-        p.textContent = `Released ${info[0].date}`;
-        infoDiv.appendChild(p);
-
-        if (info[0].audio.spotify) {
-            p = document.createElement("p");
-            p.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(info[0].audio.spotify), "track"));
-            infoDiv.appendChild(p);
-        }
-
-        if (info.length > 1) {
-            infoDiv.appendChild(moreButton("/song", "More Music"));
-        }
-
-        section.appendChild(infoDiv);
-
-        infoDiv = document.createElement("div");
-        if (info[0]["cover-front"]) {
-            img = document.createElement("img");
-            img.src = info[0]["cover-front"];
-            infoDiv.appendChild(img);
-        }
-        section.appendChild(infoDiv);
-        article.appendChild(section);
-        document.querySelector("main").appendChild(article);
-    }
-}*/
-
 function showMusic(release) {
     var article = document.createElement("article");
     release = release[0];
@@ -156,7 +101,6 @@ function showMusic(release) {
     div = document.createElement("div");
     div.innerHTML = converter.makeHtml(release.desc);
     h3 = document.createElement("h3");
-    // h3.textContent = release.date;
     h3.appendChild(dateFormat(new Date(Date.parse(release.date))));
     div.insertBefore(h3, div.firstChild);
     h2 = document.createElement("h2");
@@ -174,14 +118,11 @@ function showMusic(release) {
     h1.textContent = "Latest Release";
     div.insertBefore(h1, h2);
 
-    // var h4 = document.createElement("h4");
     var a = document.createElement("a");
     a.href = "/music";
     a.className = "more";
     a.textContent = "More Music";
-    // h4.appendChild(a);
     div.appendChild(a);
-    // div.appendChild();
     section.appendChild(div);
 
     div = document.createElement("div");
@@ -192,14 +133,15 @@ function showMusic(release) {
     }
     section.appendChild(div);
 
-    // var h1 = document.createElement("h1");
-    // h1.textContent = "Latest Release";
-    // article.appendChild(h1);
     article.appendChild(section);
     document.querySelector("main").appendChild(article);
 }
 
-getJsonData("/api/site/", showBandInfo);
-getJsonData("/api/gig/?range=upcoming", showShows);
-getJsonData("/api/release/", showMusic);
+setTitle(function () {
+    // getJsonData("/api/release", showReleases);
+    getJsonData("/api/site/", showBandInfo);
+});
+// getJsonData("/api/site/", showBandInfo);
+// getJsonData("/api/gig/?range=upcoming", showShows);
+// getJsonData("/api/release/", showMusic);
 </script>

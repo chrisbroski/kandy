@@ -13,8 +13,6 @@ iframe.spotify-player-sm {
 </style>
 <body>
 
-<!--#include file="/api/header.pht" -->
-
 <main>
 <article>
     <section class="col2">
@@ -106,5 +104,4 @@ function showSong(songData) {
 setTitle(function () {
     getJsonData(`/api/song/${querystring("id")}`, showSong);
 });
-// getJsonData("/api/gig/?range=past", showGigs);
 </script>

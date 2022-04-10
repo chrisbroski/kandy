@@ -8,8 +8,6 @@
 
 <body>
 
-<!--#include file="/api/header.pht" -->
-
 <main>
 <article id="past-shows">
     <section class="col2">
@@ -88,6 +86,7 @@ function showGigs(gigData) {
     shows.appendChild(section);
 }
 
-setTitle();
-getJsonData("/api/gig/?range=past", showGigs);
+setTitle(function () {
+    getJsonData("/api/gig/?range=past", showGigs);
+});
 </script>

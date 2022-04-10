@@ -8,8 +8,6 @@
 
 <body>
 
-<!--#include file="/api/header.pht" -->
-
 <main>
 <article id="all-shows">
     <section class="col2">
@@ -41,6 +39,7 @@ function showGigs(gigData) {
     });
 }
 
-setTitle();
-getJsonData("/api/gig/?range=upcoming", showGigs);
+setTitle(function () {
+    getJsonData("/api/gig/?range=upcoming", showGigs);
+});
 </script>
