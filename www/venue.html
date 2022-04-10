@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Music</title>
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<link rel="stylesheet" type="text/css" href="/inc/main.css">
+<style>
+
+</style>
+<body>
+
+<main>
+<article>
+    <section class="col2">
+        <h1></h1>
+    </section>
+</article>
+</main>
+
+<script type="text/javascript" src="/inc/showdown.min.js"></script>
+<script type="text/javascript" src="/inc/Aerophane.js"></script>
+<script type="text/javascript" src="/inc/main.js"></script>
+<script>
+var converter = new showdown.Converter({"noHeaderId": true});
+
+function showVenue(venueData) {
+    var article = document.querySelector("main article");
+    var section = document.createElement("section");
+    section.className = "col2";
+    var div = document.createElement("div");
+
+    var h1 = document.querySelector("h1");
+    h1.textContent = venueData.name;
+    var a;
+    var p;
+    if (venueData.add1) {
+        p = document.createElement("p");
+        p.textContent = venueData.add1;
+        div.appendChild(p);
+    }
+    if (venueData.add2) {
+        p = document.createElement("p");
+        p.textContent = venueData.add2;
+        div.appendChild(p);
+    }
+    p = document.createElement("p");
+    // console.log(venueData);
+    p.textContent = `${venueData.city}, ${venueData.state} ${venueData.zip}`;
+    div.appendChild(p);
+
+    if (venueData.link) {
+        p = document.createElement("p");
+        a = document.createElement("a");
+        a.href = venueData.link;
+        a.textContent = venueData.link;
+        a.target = "_venue";
+        p.appendChild(a);
+        div.appendChild(p);
+    }
+
+    section.appendChild(div);
+    section.appendChild(gigMapDiv(venueData));
+    article.appendChild(section);
+
+    var template;
+    if (venueData.desc) {
+        template = document.createElement("template");
+        section = document.createElement("section");
+        h2 = document.createElement("h2");
+        h2.textContent = `More About ${venueData.name}`;
+        template.innerHTML = converter.makeHtml(venueData.desc);
+        section.appendChild(template.content);
+        article.appendChild(section);
+    }
+}
+
+setTitle(function () {
+    getJsonData(`/api/venue/${querystring("id")}`, showVenue);
+});
+</script>

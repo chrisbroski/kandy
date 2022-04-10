@@ -92,6 +92,7 @@ function gigInfoDiv(gig) {
     var div = document.createElement("div");
     var h3;
     var p;
+    var a;
     var date = new Date(gig.date + "T00:00:01");
 
     if (gig.title) {
@@ -107,7 +108,10 @@ function gigInfoDiv(gig) {
     div.appendChild(h3);
 
     h3 = document.createElement("h3");
-    h3.textContent = gig.venueData.name;
+    a = document.createElement("a");
+    a.href = `/venue?id=${gig.venue}`;
+    a.textContent = gig.venueData.name;
+    h3.appendChild(a);
     div.appendChild(h3);
 
     p = document.createElement("p");
@@ -127,13 +131,13 @@ function gigInfoDiv(gig) {
     return div;
 }
 
-function gigMapDiv(gig) {
+function gigMapDiv(venueData) {
     var div = document.createElement("div");
     var iframe = document.createElement("iframe");
     iframe.className = "map";
 
     iframe.loading = "lazy";
-    iframe.src = `https://www.google.com/maps/embed/v1/place?q=${encodeURIComponent(gig.venueData.name)}%2C+${encodeURIComponent(gig.venueData.city)}+${encodeURIComponent(gig.venueData.state)}&key=${gig.venueData.MAP_KEY}`;
+    iframe.src = `https://www.google.com/maps/embed/v1/place?q=${encodeURIComponent(venueData.name)}%2C+${encodeURIComponent(venueData.city)}+${encodeURIComponent(venueData.state)}&key=${venueData.MAP_KEY}`;
     div.appendChild(iframe);
     return div;
 }

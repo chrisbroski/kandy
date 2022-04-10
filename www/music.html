@@ -35,7 +35,7 @@ function showGigs(gigData) {
         section.className = "col2";
 
         section.appendChild(gigInfoDiv(gig));
-        section.appendChild(gigMapDiv(gig));
+        section.appendChild(gigMapDiv(gig.venueData));
         shows.appendChild(section);
     });
 }

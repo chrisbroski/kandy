@@ -86,7 +86,7 @@ function showShows(info) {
         }
 
         section.appendChild(infoDiv);
-        section.appendChild(gigMapDiv(info.gigs[0]));
+        section.appendChild(gigMapDiv(info.gigs[0].venueData));
         article.appendChild(section);
 
         document.querySelector("main").appendChild(article);
