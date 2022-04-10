@@ -32,7 +32,7 @@ function showMembers(userData) {
     var img;
 
     userData.forEach(u => {
-        if (u.bandMember === "Y") {
+        if (u.bandMember === "Y" && u.bio) {
             section = document.createElement("section");
             section.className = "col2";
             div = document.createElement("div");
