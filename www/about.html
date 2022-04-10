@@ -24,6 +24,38 @@
 <script>
 var converter = new showdown.Converter({"noHeaderId": true});
 
+function showMembers(userData) {
+    var section;
+    var page = document.querySelector("main#about article");
+    var div;
+    var h2;
+    var img;
+
+    userData.forEach(u => {
+        if (u.bandMember === "Y") {
+            section = document.createElement("section");
+            section.className = "col2";
+            div = document.createElement("div");
+            h2 = document.createElement("h2");
+            h2.textContent = `${u.givenName} ${u.surname}`;
+            // div.appendChild(h2);
+            div.innerHTML = converter.makeHtml(u.bio);
+            div.insertBefore(h2, div.firstChild);
+            section.appendChild(div);
+
+            div = document.createElement("div");
+            if (u.photo) {
+                img = document.createElement("img");
+                img.src = `/photo/${u.photo}`;
+                img.alt = `${u.givenName} ${u.surname}`;
+                div.appendChild(img);
+            }
+            section.appendChild(div);
+            page.appendChild(section);
+        }
+    });
+}
+
 function showAbout(aboutData) {
     var contact = document.querySelector("main#about article > section:first-child");
     // var converter = new showdown.Converter({"noHeaderId": true});
@@ -42,6 +74,8 @@ function showAbout(aboutData) {
         bio.innerHTML = converter.makeHtml(aboutData.bio);
         page.appendChild(bio);
     }
+
+    getJsonData("/api/user", showMembers);
 }
 
 setTitle();
