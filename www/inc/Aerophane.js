@@ -1,36 +1,8 @@
-function Aerophane(mainDeviceReady) {
+/*exported Aerophane */
+function Aerophane() {
     "use strict";
 
-    var pageDeviceReady, isDeviceReady = false, classname, menuWidth = '240px';
-
-    function isTouch() {
-        return ("ontouchstart" in window || "onmsgesturechange" in window);
-    }
-    this.isTouch = isTouch;
-
-    function touchclick(el, func, bubble) {
-        if (!el) {
-            return;
-        }
-        bubble = !!bubble;
-
-        function cancelTouchClick() {
-            /* jshint validthis: true */
-            this.removeEventListener("touchend", func, bubble);
-            this.removeEventListener("touchcancel", cancelClick, bubble);
-            /* jshint validthis: false */
-        }
-
-        if (isTouch()) {
-            el.addEventListener("touchstart", function () {
-                this.addEventListener("touchend", func, bubble);
-                this.addEventListener("touchcancel", cancelTouchClick, bubble);
-            }, bubble);
-        } else {
-            el.addEventListener("click", func, bubble);
-        }
-    }
-    this.touchclick = touchclick;
+    var classname, menuWidth = '240px';
 
     function forEachElement(els, func) {
         var ii, len = els.length;
@@ -68,13 +40,6 @@ function Aerophane(mainDeviceReady) {
         }
     };
     this.classname = classname;
-
-    function querystring(key) {
-        var oRe = new RegExp("[\\?&]" + key + "=([^&#]*)");
-        var val = oRe.exec(parent.location.search);
-        return (val) ? unescape(val[1]) : "";
-    }
-    this.querystring = querystring;
 
     function showDialog(el) {
         document.activeElement.blur();
@@ -143,10 +108,10 @@ function Aerophane(mainDeviceReady) {
         navMatte.id = "matte";
         document.body.appendChild(navMatte);
 
-        touchclick(navMatte, clearDialogs);
+        navMatte.addEventListener("click", clearDialogs);
     }
 
-    function showNav(nav) {
+    function showNav() {
         var mainNav = document.querySelector("body > nav#main");
         if (mainNav.style.width === menuWidth) {
             clearDialogs();
@@ -160,209 +125,11 @@ function Aerophane(mainDeviceReady) {
 
     function initNav(button) {
         button = button || document.querySelector("body > header > button:first-child");
-        touchclick(button, function () {
+        button.addEventListener("click", function () {
             showNav();
         });
     }
     this.initNav = initNav;
 
-    function include(el, path, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", path);
-        xhr.onload = function () {
-            el.innerHTML = this.responseText;
-            if (callback) {
-                callback();
-            }
-        };
-        xhr.send();
-    }
-    this.include = include;
-
-    function includeNav(navFile) {
-        var mainNav = document.createElement("nav");
-        mainNav.id = "main";
-        mainNav.style.width = "0";
-        document.body.appendChild(mainNav);
-        include(mainNav, navFile, function () {
-            initNav();
-            window.setTimeout(function () {
-                mainNav.removeAttribute("style");
-            }, 10);
-        });
-    }
-    this.includeNav = includeNav;
-
-    function dialogSelect(selects) {
-        if (!selects) {
-            return;
-        }
-        forEachElement(selects, function (el) {
-            var dsButton = document.createElement("button"),
-                dsLabel = document.createElement("span"),
-                caret = document.createElement("div");
-
-            dsButton.className = "dialog";
-            dsLabel.textContent = el.value;
-            dsButton.appendChild(dsLabel);
-            caret.className = "caret";
-            dsButton.appendChild(caret);
-
-            el.parentNode.insertBefore(dsButton, el);
-            touchclick(dsButton, function (e) {
-                var elDialog, dialogOption;
-                e.preventDefault();
-
-                elDialog = document.createElement("div");
-                elDialog.className = "dialog";
-                elDialog.id = "aeroDialogSelect";
-
-                forEachElement(el.options, function (option, index) {
-                    dialogOption = document.createElement("div");
-                    dialogOption.textContent = option.text;
-                    dialogOption.setAttribute("data-select-index", index);
-                    touchclick(dialogOption, function (e) {
-                        el.selectedIndex = +this.getAttribute("data-select-index");
-                        el.previousSibling.getElementsByTagName("span")[0].textContent = el.value;
-                        clearDialogs();
-                    });
-
-                    elDialog.appendChild(dialogOption);
-                });
-
-                document.body.appendChild(elDialog);
-                showDialog(elDialog);
-            });
-        });
-    }
-    this.dialogSelect = dialogSelect;
-
-    function fastForm() {
-        var inputTypes = ["text", "password", "email", "number", "search", "checkbox", "radio"];
-        var inputs = document.querySelectorAll('input, label');
-
-        function fastcheck(elInput) {
-            var inputs, inputType;
-            if (elInput.tagName.toLowerCase() === 'label') {
-                inputs = elInput.getElementsByTagName("input");
-                if (inputs && inputs.length) {
-                    elInput = inputs[0];
-                }
-            }
-            inputType = elInput.getAttribute("type");
-
-            if (inputType) {
-                inputType.toLowerCase();
-            }
-
-            if (inputType === 'checkbox') {
-                elInput.checked = !elInput.checked;
-            }
-            if (inputType === 'radio') {
-                elInput.checked = true;
-            }
-            elInput.focus();
-        }
-
-        forEachElement(inputs, function (el) {
-            var elInputs;
-            if (!isTouch()) {
-                return;
-            }
-            if (!el.getAttribute("type") || inputTypes.indexOf(el.getAttribute("type")) > -1) {
-                el.addEventListener("touchstart", function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    fastcheck(this);
-                });
-            }
-        });
-    }
-    this.fastForm = fastForm;
-
-    function getTabIndex() {
-        if (!location.hash) {
-            return 1;
-        }
-        if (location.hash.slice(0, 4) !== "#tab") {
-            return 1;
-        }
-        var tabIndex = parseInt(location.hash.slice(4));
-        if (tabIndex) {
-            return tabIndex;
-        }
-        return 1;
-    }
-
-    function showTab(tabIndex) {
-        var tabArticles = document.querySelectorAll("article.tabs"),
-            tabTabs = document.querySelectorAll("nav.tabs a");
-
-        forEachElement(tabArticles, function (el, ii) {
-            if (ii === tabIndex - 1) {
-                el.className = "tabs active";
-                tabTabs[ii].className = "active";
-            } else {
-                el.className = "tabs";
-                tabTabs[ii].className = "";
-            }
-        });
-    }
-
-    function tabInit() {
-        var tabArticles = document.querySelectorAll("article.tabs");
-
-        forEachElement(tabArticles, function (el, ii) {
-            var tabNav, tabA, tabName;
-
-            if (ii === 0) {
-                tabNav = document.createElement("nav");
-                tabNav.className = "tabs";
-                document.body.insertBefore(tabNav, el);
-            }
-
-            tabA = document.createElement("a");
-            tabName = el.firstElementChild;
-            tabA.textContent = tabName.textContent;
-            el.removeChild(tabName);
-            tabA.href = "#tab" + (ii + 1);
-            document.querySelector("body > nav").appendChild(tabA);
-        });
-
-        window.onhashchange = function () {
-            showTab(getTabIndex());
-        };
-
-        showTab(getTabIndex());
-    }
-
-    this.tab = {};
-    this.tab.init = tabInit;
-    this.tab.show = showTab;
-
-    this.setPageDeviceReady = function (func) {
-        pageDeviceReady = func;
-
-        if (isDeviceReady) {
-            func();
-        }
-    };
-
-    function deviceReady() {
-        isDeviceReady = true;
-
-        if (mainDeviceReady) {
-            mainDeviceReady();
-        }
-        if (pageDeviceReady) {
-            pageDeviceReady();
-        }
-    }
-
-    function initializeAero() {
-        createMatte();
-        document.addEventListener("deviceready", deviceReady);
-    }
-
-    initializeAero();
+    createMatte();
 }

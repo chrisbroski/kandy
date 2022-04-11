@@ -13,11 +13,6 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 
 var daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-function dateTitleFormat(d) {
-    var date = new Date(d + "T00:00:01");
-    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-}
-
 function gigTimes(date, startTime, durationH, durationM) {
     var gigDate = new Date(date);
     var gigStart = new Date(date + "T" + startTime + ":00");
@@ -221,7 +216,7 @@ function setTitle(callback) {
         icon.className = "material-icons";
         icon.textContent = "menu";
         button.appendChild(icon);
-        var h1 = document.createElement("header");
+        var h1 = document.createElement("h1");
         h1.textContent = bandName;
         header.appendChild(button);
         header.appendChild(h1);

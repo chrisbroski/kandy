@@ -119,11 +119,11 @@ function showMusic(release) {
     h2.appendChild(a);
     div.insertBefore(h2, h3);
 
-    var a = document.createElement("a");
-    a.href = "/music";
-    a.className = "more";
-    a.textContent = "More Music";
-    div.appendChild(a);
+    // var a = document.createElement("a");
+    // a.href = "/music";
+    // a.className = "more";
+    // a.textContent = "More Music";
+    div.appendChild(moreButton("/music", "More Music"));
     section.appendChild(div);
 
     div = document.createElement("div");
