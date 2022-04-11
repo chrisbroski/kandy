@@ -98,6 +98,11 @@ function showMusic(release) {
     release = release[0];
     section = document.createElement("section");
     section.className = "col2";
+
+    var h1 = document.createElement("h1");
+    h1.textContent = "Latest Release";
+    section.appendChild(h1);
+
     div = document.createElement("div");
     div.innerHTML = converter.makeHtml(release.desc);
     h3 = document.createElement("h3");
@@ -113,10 +118,6 @@ function showMusic(release) {
     }
     h2.appendChild(a);
     div.insertBefore(h2, h3);
-
-    var h1 = document.createElement("h1");
-    h1.textContent = "Latest Release";
-    div.insertBefore(h1, h2);
 
     var a = document.createElement("a");
     a.href = "/music";

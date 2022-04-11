@@ -66,6 +66,7 @@ h1, h2, h4 {font-family: var(--header-font); color: rgb(var(--color2)); font-wei
 
 pre {
     font-size: 17px;
+    white-space: pre-wrap;
 }
 
 button, input[type="button"], input[type="submit"], input[type="reset"] {
@@ -217,7 +218,7 @@ svg.spinner circle {
 }
 
 article > section {
-    padding: 12px 24px 24px;
+    padding: 24px;
     overflow: auto;
 }
 article > section > *:first-child {
