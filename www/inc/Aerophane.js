@@ -123,13 +123,5 @@ function Aerophane() {
     }
     this.showNav = showNav;
 
-    function initNav(button) {
-        button = button || document.querySelector("body > header > button:first-child");
-        button.addEventListener("click", function () {
-            showNav();
-        });
-    }
-    this.initNav = initNav;
-
     createMatte();
 }

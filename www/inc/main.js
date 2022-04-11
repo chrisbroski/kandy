@@ -7,8 +7,6 @@ var aero = new Aerophane();
 //     getStyle("main");
 // });
 
-aero.initNav();
-
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 var daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -212,6 +210,9 @@ function setTitle(callback) {
 
         var header = document.createElement("header");
         var button = document.createElement("button");
+        button.addEventListener("click", function () {
+            aero.showNav();
+        });
         var icon = document.createElement("span");
         icon.className = "material-icons";
         icon.textContent = "menu";
