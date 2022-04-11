@@ -108,10 +108,14 @@ function gigInfoDiv(gig) {
     div.appendChild(h3);
 
     h3 = document.createElement("h3");
-    a = document.createElement("a");
-    a.href = `/venue?id=${gig.venue}`;
-    a.textContent = gig.venueData.name;
-    h3.appendChild(a);
+    if (gig.venueData.desc || gig.venueData.link) {
+        a = document.createElement("a");
+        a.href = `/venue?id=${gig.venue}`;
+        a.textContent = gig.venueData.name;
+        h3.appendChild(a);
+    } else {
+        h3.textContent = gig.venueData.name;
+    }
     div.appendChild(h3);
 
     p = document.createElement("p");

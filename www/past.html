@@ -35,6 +35,7 @@ function showGigs(gigData) {
     gigData.gigs.forEach(function (gig) {
         var h3;
         var p;
+        var a;
         var date = new Date(gig.date + "T00:00:01");
         var mapLink;
         var thisYear = (new Date()).getFullYear();
@@ -67,7 +68,14 @@ function showGigs(gigData) {
         h3.appendChild(document.createTextNode(`${months[date.getMonth()]} ${date.getDate()}`));
         h3.appendChild(ord(date.getDate()));
         h3.appendChild(document.createTextNode(`, ${date.getFullYear()} - `));
-        h3.appendChild(document.createTextNode(gig.venueData.name));
+        if (gig.venueData.desc || gig.venueData.link) {
+            a = document.createElement("a");
+            a.href = `/venue?id=${gig.venue}`;
+            a.textContent = gig.venueData.name;
+            h3.appendChild(a);
+        } else {
+            h3.appendChild(document.createTextNode(gig.venueData.name));
+        }
 
         p = document.createElement("span");
         p.textContent = " " + daysOfTheWeek[date.getDay()] + ", " + gigTimes(gig.date, gig.startTime, gig.durationH, gig.durationM) + " ";
