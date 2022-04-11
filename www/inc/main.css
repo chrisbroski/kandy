@@ -41,7 +41,7 @@ html {
 
 body {
     margin: 0; padding-top: 56px;
-    background: black url(/photo/bg3.jpeg) no-repeat;
+    background: white url(/photo/bg3.jpeg) no-repeat;
     background-attachment: fixed;
     background-size: cover;
     background-position: top center;
@@ -55,7 +55,7 @@ body.stop-scrolling {
     overflow: hidden;
 }
 
-h1 {margin: 0.5em 0; font-size: 48px; }
+h1 {margin: 0 0 0.5em; font-size: 48px; }
 h2 {margin: 0.5em 0; font-size: 36px; }
 h3 {margin: 0.5em 0; font-size: 24px; font-weight: bold; color: rgb(var(--color2)); }
 h4 {margin: 0.5em 0; font-size: 24px; }
