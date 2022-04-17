@@ -12,7 +12,6 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 var daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 function gigTimes(date, startTime, durationH, durationM) {
-    var gigDate = new Date(date);
     var gigStart = new Date(date + "T" + startTime + ":00");
     var hourStart = gigStart.getHours();
     var minuteStart = gigStart.getMinutes();
@@ -81,7 +80,7 @@ function ord(num) {
 }
 
 function gigInfoDiv(gig) {
-    var converter = new showdown.Converter();
+    var converter = new showdown.Converter({"noHeaderId": true, "simpleLineBreaks": true});
     var div = document.createElement("div");
     var h3;
     var p;
