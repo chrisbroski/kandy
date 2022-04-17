@@ -49,17 +49,16 @@ function showRelease(release) {
     var a;
 
     var h2 = document.createElement("h2");
-    var releaseName;
+    var releaseName = release.name;
+    if (!releaseName) {
+        releaseName = release.songs[0].name;
+    }
     if (release.songs.length === 1) {
         a = document.createElement("a");
         a.href = `/song?id=${release.songs[0].id}`;
-        a.textContent = release.songs[0].name;
+        a.textContent = releaseName;
         h2.appendChild(a);
     } else {
-        releaseName = release.name;
-        if (!releaseName) {
-            releaseName = `${release.date} Release`;
-        }
         h2.textContent = releaseName;
     }
     div.appendChild(h2);
@@ -162,7 +161,7 @@ function showRelease(release) {
     if (release.songs.length > 1) {
         section = document.createElement("section");
         h2 = document.createElement("h2");
-        h2.textContent = "Album Tracks";
+        h2.textContent = "Track List";
         section.appendChild(h2);
 
         release.songs.forEach(s => {
