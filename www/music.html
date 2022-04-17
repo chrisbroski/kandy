@@ -23,12 +23,9 @@
 </article>
 </main>
 
-<script type="text/javascript" src="/inc/Aerophane.js"></script>
 <script type="text/javascript" src="/inc/showdown.min.js"></script>
 <script type="text/javascript" src="/inc/main.js"></script>
 <script>
-var converter = new showdown.Converter({"noHeaderId": true, "simpleLineBreaks": true});
-
 function showGigs(gigData) {
     var shows = document.querySelector("#all-shows");
     gigData.gigs.forEach(function (gig, idx) {
