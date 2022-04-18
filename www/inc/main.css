@@ -1,6 +1,11 @@
 @import url("/api/custom.css");
 
 @font-face {
+    font-family: "Good Vibes";
+    src: url("Good Vibes - Demo.ttf") format("truetype");
+}
+
+@font-face {
     font-family: "Material Icons";
     font-style: normal;
     font-weight: 400;
@@ -132,7 +137,9 @@ body > nav#main {
     top: 0; bottom: 0; left: 0;
     overflow: auto;
     width: 0;
-    background: #fff;
+    background-color: rgb(var(--color1));
+    color: #fff;
+    background-image: linear-gradient(45deg, black, transparent);
     transition: width 0.2s;
     white-space: nowrap;
     z-index: 2;
@@ -141,6 +148,7 @@ body > nav#main {
 
 body > nav#main h2 {
     margin: 0; padding: 0 16px;
+    color: rgb(var(--color1));
     vertical-align: bottom;
     line-height: 56px;
     font-size: 18px;
@@ -160,7 +168,7 @@ body > nav#main p a {
     padding: 16px;
     display: block;
     text-decoration: none;
-    color: #333;
+    color: #fff;
     line-height: 48px;
 }
 body > nav#main #social {
@@ -244,9 +252,6 @@ iframe.spotify-player-sm {
 main#home article:first-child h1 {
     display: none;
 }
-/* main#home article:first-child div {
-    margin-top: 64px;
-} */
 
 a {
     color: rgb(var(--color2));
@@ -254,22 +259,11 @@ a {
 
 /* Main application header */
 body > header {
-    background: rgb(var(--color1));
+    background-color: rgb(var(--color1));
+    background-image: linear-gradient(105deg, rgba(0, 0, 0, 0.8), transparent);
     color: #fff;
 }
 body > header button {
-    color: #fff;
-}
-
-/* Main nav */
-body > nav#main h2 {
-    color: rgb(var(--color1));
-}
-body > nav#main {
-    background: rgb(var(--color1));
-    color: #fff;
-}
-body > nav#main p a {
     color: #fff;
 }
 

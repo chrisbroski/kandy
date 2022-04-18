@@ -215,7 +215,8 @@ function gigInfoDiv(gig) {
     h3 = document.createElement("h4");
     h3.textContent = `${months[date.getMonth()]} ${date.getDate()}`;
     h3.appendChild(ord(date.getDate()));
-    h3.appendChild(document.createTextNode(`, ${date.getFullYear()}`));
+    // NB: removed comma because the Good Vibes demo doesn't have one
+    h3.appendChild(document.createTextNode(` ${date.getFullYear()}`));
     div.appendChild(h3);
 
     h3 = document.createElement("h3");

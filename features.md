@@ -2,9 +2,9 @@
 
 ## Features
 
-Notifications
+### Notifications
 
-Tip Jar Page
+### Tip Jar Page
 
 Link to /api from front end somewhere not obvious to the casual browser, but findable to someone aware. Maybe a gear in the top left "Accessible version"
 
@@ -25,13 +25,7 @@ EPK Page
 
 ## Bugs
 
-Need to use "Good Vibes" not "Great Vibes"
-
-Combine Aerophane into main.js
-
 A bundler might be nice. It was break the cache for new js/css and combine showdown.
-
-Double-check showdown uses the template.content trick.
 
 I think it's time to add browser notifications to gigs and releases.
 
