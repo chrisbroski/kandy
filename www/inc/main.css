@@ -1,11 +1,6 @@
 @import url("/api/custom.css");
 
 @font-face {
-    font-family: "Good Vibes";
-    src: url("Good Vibes - Demo.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "Material Icons";
     font-style: normal;
     font-weight: 400;
