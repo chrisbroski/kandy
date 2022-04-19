@@ -366,6 +366,9 @@ function setTitle(callback) {
             }
         });
         nav.appendChild(p);
+        var div = document.createElement("div");
+        div.className = "addthis_tipjar_inline";
+        nav.appendChild(div);
 
         document.body.insertBefore(nav, document.body.firstChild);
         document.body.insertBefore(header, nav);

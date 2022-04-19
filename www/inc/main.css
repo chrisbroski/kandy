@@ -377,6 +377,9 @@ main section.list h3 img {
 img.icon {
     filter: brightness(0) saturate(100%) invert(40%) sepia(100%) saturate(552%) hue-rotate(345deg) brightness(96%) contrast(88%);
 }
+div.addthis_tipjar_inline {
+    margin: 16px;
+}
 
 /* large-screen version */
 @media (min-width: 800px) {
