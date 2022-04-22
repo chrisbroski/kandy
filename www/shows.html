@@ -15,6 +15,7 @@
         <div>
             <h1>Shows</h1>
             <p><a href="/past" class="more">Previous Shows</a></p>
+            <!-- <p><button id="enable">Notify Me About Upcoming Shows</button></p> -->
         </div>
         <div>
             <img src="/photo/image0000081.jpg">
@@ -26,6 +27,42 @@
 <script type="text/javascript" src="/inc/showdown.min.js"></script>
 <script type="text/javascript" src="/inc/main.js"></script>
 <script>
+
+function checkNotificationPromise() {
+    try {
+        Notification.requestPermission().then();
+    } catch(e) {
+        return false;
+    }
+    return true;
+}
+
+function askNotificationPermission() {
+    // function to actually ask the permissions
+    function handlePermission(permission) {
+        // set the button to shown or hidden, depending on what the user answers
+        if (Notification.permission === 'denied' || Notification.permission === 'default') {
+            document.querySelector("#enable").style.display = 'block';
+        } else {
+            document.querySelector("#enable").style.display = 'none';
+        }
+    }
+
+    // Let's check if the browser supports notifications
+    if (!('Notification' in window)) {
+        console.log("This browser does not support notifications.");
+    } else {
+        if (checkNotificationPromise()) {
+            Notification.requestPermission().then((permission) => {
+                handlePermission(permission);
+            });
+        } else {
+            Notification.requestPermission(function(permission) {
+                handlePermission(permission);
+            });
+        }
+    }
+}
 
 function showGigs(gigData) {
     var shows = document.querySelector("#all-shows");
@@ -42,6 +79,10 @@ function showGigs(gigData) {
 setTitle(function () {
     getJsonData("/api/gig/?range=upcoming", showGigs);
 });
+/*
+document.querySelector("#enable").addEventListener("click", askNotificationPermission);
+if (Notification.permission === "granted") {
+    document.querySelector("#enable").style.display = 'none';
+}*/
 </script>
-<!-- Go to www.addthis.com/dashboard to customize your tools -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-625eec522042fe4c"></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools --> <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-625ee32c3cd9d087"></script>
