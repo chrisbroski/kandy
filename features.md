@@ -1,5 +1,12 @@
 # Development Prioritization
 
+## For Next Deploy
+
+* https (needed for notifications)
+* Tip jar
+* api shortcut
+* open graph head include
+
 ## Features
 
 ### Notifications

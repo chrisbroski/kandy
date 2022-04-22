@@ -381,6 +381,20 @@ div.addthis_tipjar_inline {
     margin: 16px;
 }
 
+#api {
+    text-decoration: none;
+    position: absolute;
+    top: 14px; right: 18px;
+    font-size: 17px;
+    opacity: 20%;
+    border-radius: 8px;
+    z-index: 2;
+}
+#api:active, #api:focus {
+    opacity: 100%;
+    outline: 4px solid rgb(var(--color2));
+}
+
 /* large-screen version */
 @media (min-width: 800px) {
     body {
@@ -464,5 +478,10 @@ div.addthis_tipjar_inline {
     }
     article#about {
         padding-bottom: 40px;
+    }
+
+    #api {
+        top: 48px; right: 56px;
+        font-size: 36px;
     }
 }

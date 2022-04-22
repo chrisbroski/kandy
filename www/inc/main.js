@@ -370,7 +370,7 @@ function setTitle(callback) {
         div.className = "addthis_tipjar_inline";
         nav.appendChild(div);
 
-        document.body.insertBefore(nav, document.body.firstChild);
+        document.body.insertBefore(nav, document.querySelector("main"));
         document.body.insertBefore(header, nav);
 
         if (callback) {
