@@ -306,10 +306,15 @@ function navLink(href, iconName, menuName) {
     var icon = document.createElement("span");
     icon.className = "material-icons";
     icon.textContent = iconName;
-    a.href = href;
-    a.appendChild(icon);
-    a.appendChild(document.createTextNode(` ${menuName}`));
-    p.appendChild(a);
+    if (href) {
+        a.href = href;
+        a.appendChild(icon);
+        a.appendChild(document.createTextNode(` ${menuName}`));
+        p.appendChild(a);
+    } else {
+        p.appendChild(icon);
+        p.appendChild(document.createTextNode(` ${menuName}`));
+    }
     return p;
 }
 
@@ -324,7 +329,7 @@ var social = {
 var bandName;
 function setTitle(callback) {
     getJsonData("/api/band/", function (info) {
-        document.title = `${document.title} - ${info.name}`;
+        // document.title = `${document.title} - ${info.name}`;
         bandName = info.name;
 
         var header = document.createElement("header");
@@ -350,10 +355,10 @@ function setTitle(callback) {
         nav.appendChild(navLink("/about", "menu_book", "About"));
 
         var p = document.createElement("p");
+        var a;
+        var img;
         p.id = "social";
         Object.keys(info.social).forEach(soc => {
-            var a;
-            var img;
             if (info.social[soc]) {
                 a = document.createElement("a");
                 a.href = info.social[soc];
@@ -366,9 +371,48 @@ function setTitle(callback) {
             }
         });
         nav.appendChild(p);
-        var div = document.createElement("div");
-        div.className = "addthis_tipjar_inline";
-        nav.appendChild(div);
+
+        // Add own tip jar here
+        // var div = document.createElement("div");
+        // div.className = "addthis_tipjar_inline";
+        // nav.appendChild(div);
+
+        /*
+        <h3>Tip jar</h3>
+        <h5 id="payment">
+        <a href="https://venmo.com/?txn=pay&audience=friends&recipients=@ChrisBroski" target="_blank"><img src="/img/venmo.svg" id="venmo"></a>
+        </h5>
+        */
+        var payUrl;
+        // var icon;
+        if (info.payment && info.payment.venmo) {
+            console.log(info.payment);
+            // p = document.createElement("p");
+            // p.textContent = "Tip Jar";
+            payUrl = `https://venmo.com/?txn=pay&audience=friends&recipients=${info.payment.venmo}`;
+            // nav.appendChild(navLink("", "paid", "Tip Jar"));
+            p = document.createElement("p");
+            p.id = "tip-jar";
+            icon = document.createElement("span");
+            icon.className = "material-icons";
+            icon.textContent = "paid";
+            p.appendChild(icon);
+            p.appendChild(document.createTextNode(` Tip Jar`));
+            nav.appendChild(p);
+
+            p = document.createElement("p");
+            p.id = "payment";
+            a = document.createElement("a");
+            a.href = payUrl;
+            img = document.createElement("img");
+            img.alt = "Venmo";
+            img.src = `/img/social/venmo.svg`;
+            // img.className = "icon";
+            a.appendChild(img);
+            p.appendChild(a);
+            nav.appendChild(p);
+            // p.appendChild(document.createTextNode("\n"));
+        }
 
         document.body.insertBefore(nav, document.querySelector("main"));
         document.body.insertBefore(header, nav);

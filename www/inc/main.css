@@ -174,7 +174,7 @@ body > nav#main #social a {
     display: inline-block;
     padding: 0;
 }
-body > nav#main #social a img {
+body > nav#main #social a img, body > nav#main #payment a img {
     width: 48px; height: 48px;
 }
 
@@ -393,6 +393,9 @@ div.addthis_tipjar_inline {
 #api:active, #api:focus {
     opacity: 100%;
     outline: 4px solid rgb(var(--color2));
+}
+#tip-jar {
+    padding: 16px;
 }
 
 /* large-screen version */
