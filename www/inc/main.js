@@ -323,7 +323,8 @@ var social = {
     "spotify": {"icon": "spotify.svg", "name": "Spotify"},
     "instagram": {"icon": "instagram.svg", "name": "Instagram"},
     "youtube": {"icon": "youtube.svg", "name": "YouTube"},
-    "podcast": {"icon": "podcast.svg", "name": "Podcast"}
+    "podcast": {"icon": "podcast.svg", "name": "Podcast"},
+    "tiktok": {"icon": "tiktok.svg", "name": "Tiktok"}
 };
 
 var bandName;
