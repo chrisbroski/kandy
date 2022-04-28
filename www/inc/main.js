@@ -372,26 +372,15 @@ function setTitle(callback) {
             }
         });
         nav.appendChild(p);
-
-        // Add own tip jar here
-        // var div = document.createElement("div");
-        // div.className = "addthis_tipjar_inline";
-        // nav.appendChild(div);
-
-        /*
-        <h3>Tip jar</h3>
-        <h5 id="payment">
-        <a href="https://venmo.com/?txn=pay&audience=friends&recipients=@ChrisBroski" target="_blank"><img src="/img/venmo.svg" id="venmo"></a>
-        </h5>
-        */
         var payUrl;
-        // var icon;
+        var venmoUsername;
+
         if (info.payment && info.payment.venmo) {
-            console.log(info.payment);
-            // p = document.createElement("p");
-            // p.textContent = "Tip Jar";
-            payUrl = `https://venmo.com/?txn=pay&audience=friends&recipients=${info.payment.venmo}`;
-            // nav.appendChild(navLink("", "paid", "Tip Jar"));
+            venmoUsername = info.payment.venmo;
+            if (venmoUsername.slice(0, 1) === '@') {
+                venmoUsername = venmoUsername.slice(1);
+            }
+            payUrl = `https://account.venmo.com/u/${venmoUsername}`;
             p = document.createElement("p");
             p.id = "tip-jar";
             icon = document.createElement("span");
@@ -404,15 +393,14 @@ function setTitle(callback) {
             p = document.createElement("p");
             p.id = "payment";
             a = document.createElement("a");
+            a.target = "_tip";
             a.href = payUrl;
             img = document.createElement("img");
             img.alt = "Venmo";
             img.src = `/img/social/venmo.svg`;
-            // img.className = "icon";
             a.appendChild(img);
             p.appendChild(a);
             nav.appendChild(p);
-            // p.appendChild(document.createTextNode("\n"));
         }
 
         document.body.insertBefore(nav, document.querySelector("main"));
