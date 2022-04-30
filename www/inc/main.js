@@ -431,9 +431,16 @@ function ord(num) {
 
 function dateFormat(date) {
     var text = document.createDocumentFragment();
-    text.appendChild(document.createTextNode(`${months[date.getMonth()]} ${date.getDate()}`));
-    text.appendChild(ord(date.getDate()));
-    text.appendChild(document.createTextNode(`, ${date.getFullYear()}`));
+    if (typeof date === "string") {
+        date = date.split("-");
+        text.appendChild(document.createTextNode(`${months[parseInt(date[1], 10) - 1]} ${parseInt(date[2], 10)}`));
+        text.appendChild(ord(parseInt(date[2], 10)));
+        text.appendChild(document.createTextNode(`, ${date[0]}`));
+    } else {
+        text.appendChild(document.createTextNode(`${months[date.getMonth()]} ${date.getDate()}`));
+        text.appendChild(ord(date.getDate()));
+        text.appendChild(document.createTextNode(`, ${date.getFullYear()}`));
+    }
     return text;
 }
 

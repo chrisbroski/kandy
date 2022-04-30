@@ -10,12 +10,18 @@ iframe.spotify-player-sm {
     float: right;
     max-width: 300px;
 }
+h3 {margin: 1em 0; }
+@media (max-width: 800px) {
+    iframe.spotify-player-sm {
+        float: none;
+    }
+}
 </style>
 <body>
 
 <main>
 <article>
-    <section class="col2">
+    <!-- <section class="col2">
         <div>
             <h1>Song</h1>
             <a href="/songs" class="more">All Songs</a>
@@ -23,7 +29,7 @@ iframe.spotify-player-sm {
         <div>
             <img src="/photo/ab6761670000ecd44440e04613026131c7dc3f6e.jpeg">
         </div>
-    </section>
+    </section> -->
 </article>
 </main>
 
@@ -35,18 +41,21 @@ function showSong(songData) {
     var article = document.querySelector("main article");
     var section = document.createElement("section");
 
-    var h2 = document.createElement("h2");
+    var h2 = document.createElement("h1");
     h2.textContent = songData.name;
     section.appendChild(h2);
-    var h3 = document.createElement("h3");
-    h3.textContent = songData.artist || bandName;
-    section.appendChild(h3);
 
     // audio embed
     if (songData.audio.spotify) {
-        //
         section.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(songData.audio.spotify), "track"));
     }
+    var h3 = document.createElement("h3");
+    if (songData.artist && songData.artist !== bandName) {
+        h3.textContent = `(${songData.artist})`;
+    } else {
+        h3.textContent = `Original song by ${bandName}`;
+    }
+    section.appendChild(h3);
 
     var p;
     if (songData.desc) {

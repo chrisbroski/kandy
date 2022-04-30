@@ -24,7 +24,7 @@ section.col2 div p > a {
 
 <main>
 <article>
-    <section class="col2">
+    <!-- <section class="col2">
         <div>
             <h1>Release</h1>
             <a href="/songs" class="more">All Songs</a>
@@ -32,7 +32,7 @@ section.col2 div p > a {
         <div>
             <img src="/photo/ab6761670000ecd44440e04613026131c7dc3f6e.jpeg">
         </div>
-    </section>
+    </section> -->
 </article>
 </main>
 
@@ -47,22 +47,25 @@ function showRelease(release) {
     var div = document.createElement("div");
     var a;
 
-    var h2 = document.createElement("h2");
+    var h2 = document.createElement("h1");
     var releaseName = release.name;
     if (!releaseName) {
         releaseName = release.songs[0].name;
     }
-    if (release.songs.length === 1) {
-        a = document.createElement("a");
-        a.href = `/song?id=${release.songs[0].id}`;
-        a.textContent = releaseName;
-        h2.appendChild(a);
-    } else {
+    // if (release.songs.length === 1) {
+    //     a = document.createElement("a");
+    //     a.href = `/song?id=${release.songs[0].id}`;
+    //     a.textContent = releaseName;
+    //     h2.appendChild(a);
+    // } else {
         h2.textContent = releaseName;
-    }
-    div.appendChild(h2);
+    // }
+    section.appendChild(h2);
     var h3 = document.createElement("h3");
-    h3.appendChild(dateFormat(new Date(Date.parse(release.date))));
+    if (release.upcomingRelease) {
+        h3.textContent = "Releasing on ";
+    }
+    h3.appendChild(dateFormat(release.date));
     div.appendChild(h3);
 
     var template = document.createElement("template");

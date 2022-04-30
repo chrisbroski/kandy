@@ -10,7 +10,7 @@
 
 <main>
 <article>
-    <section class="col2">
+    <!-- <section class="col2">
         <div>
             <h1>Releases</h1>
             <p><a href="/songs" class="more">All Songs</a></p>
@@ -18,52 +18,59 @@
         <div>
             <img src="/photo/image0000081.jpg">
         </div>
-    </section>
+    </section> -->
 </article>
 </main>
 
 <script type="text/javascript" src="/inc/showdown.min.js"></script>
 <script type="text/javascript" src="/inc/main.js"></script>
 <script>
-function showGigs(gigData) {
-    var shows = document.querySelector("#all-shows");
-    gigData.gigs.forEach(function (gig, idx) {
-        var section = document.createElement("section");
-        section.className = "col2";
-
-        section.appendChild(gigInfoDiv(gig));
-        section.appendChild(gigMapDiv(gig.venueData));
-        shows.appendChild(section);
-    });
-}
-
 function showReleases(releaseData) {
     var article = document.querySelector("article");
     var section;
+    var h1;
     var div;
     var h2;
     var h3;
     var a;
     var img;
 
-    releaseData.forEach(function (release) {
+    releaseData.forEach(function (release, index) {
         section = document.createElement("section");
         section.className = "col2";
+
+        if (index === 0) {
+            h1 = document.createElement("h1");
+            h1.textContent = "Latest Releases";
+            section.appendChild(h1);
+        }
         div = document.createElement("div");
         div.innerHTML = converter.makeHtml(release.desc);
+
         h3 = document.createElement("h3");
-        // h3.textContent = release.date;
-        h3.appendChild(dateFormat(new Date(Date.parse(release.date))));
-        div.insertBefore(h3, div.firstChild);
-        h2 = document.createElement("h2");
-        a = document.createElement("a");
-        a.href = `/release?id=${release.id}`;
-        if (release.name) {
-            a.textContent = release.name;
-        } else {
-            a.textContent = release.songs[0].name;
+        if (release.upcomingRelease) {
+            h3.textContent = "Releasing on ";
         }
-        h2.appendChild(a);
+        h3.appendChild(dateFormat(release.date));
+        div.insertBefore(h3, div.firstChild);
+
+        h2 = document.createElement("h2");
+        if (release.upcomingRelease) {
+            if (release.name) {
+                h2.textContent = release.name;
+            } else {
+                h2.textContent = release.songs[0].name;
+            }
+        } else {
+            a = document.createElement("a");
+            a.href = `/release?id=${release.id}`;
+            if (release.name) {
+                a.textContent = release.name;
+            } else {
+                a.textContent = release.songs[0].name;
+            }
+            h2.appendChild(a);
+        }
         div.insertBefore(h2, h3);
 
         // audio embed

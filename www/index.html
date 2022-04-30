@@ -49,9 +49,9 @@ function showBandInfo(info) {
         section = document.createElement("section");
         section.innerHTML = converter.makeHtml(info.band.bio);
 
-        h1 = document.createElement("h1");
-        h1.textContent = "About";
-        section.insertBefore(h1, section.firstChild);
+        // h1 = document.createElement("h1");
+        // h1.textContent = "About";
+        // section.insertBefore(h1, section.firstChild);
         article.appendChild(section);
         article.appendChild(moreButton("/about", "More…"));
         document.querySelector("main").appendChild(article);
@@ -96,24 +96,35 @@ function showMusic(release) {
     section = document.createElement("section");
     section.className = "col2";
 
-    var h1 = document.createElement("h1");
-    h1.textContent = "Latest Release";
-    section.appendChild(h1);
+    // var h1 = document.createElement("h1");
+    // h1.textContent = "Latest Release";
+    // section.appendChild(h1);
 
     div = document.createElement("div");
     div.innerHTML = converter.makeHtml(release.desc);
     h3 = document.createElement("h3");
-    h3.appendChild(dateFormat(new Date(Date.parse(release.date))));
+    if (release.upcomingRelease) {
+        h3.textContent = "Releasing on ";
+    }
+    h3.appendChild(dateFormat(release.date));
     div.insertBefore(h3, div.firstChild);
     h2 = document.createElement("h2");
-    a = document.createElement("a");
-    a.href = `/release?id=${release.id}`;
-    if (release.name) {
-        a.textContent = release.name;
+    if (release.upcomingRelease) {
+        if (release.name) {
+            h2.textContent = release.name;
+        } else {
+            h2.textContent = release.songs[0].name;
+        }
     } else {
-        a.textContent = release.songs[0].name;
+        a = document.createElement("a");
+        a.href = `/release?id=${release.id}`;
+        if (release.name) {
+            a.textContent = release.name;
+        } else {
+            a.textContent = release.songs[0].name;
+        }
+        h2.appendChild(a);
     }
-    h2.appendChild(a);
     div.insertBefore(h2, h3);
 
     div.appendChild(moreButton("/music", "More Music"));
