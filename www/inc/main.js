@@ -244,6 +244,15 @@ function gigInfoDiv(gig) {
         markdown.innerHTML = converter.makeHtml(gig.desc);
         div.appendChild(markdown);
     }
+    if (gig.fbEvent) {
+        p = document.createElement("p");
+        a = document.createElement("a");
+        a.textContent = "Facebook Event";
+        a.href = gig.fbEvent;
+        a.target = "_facebook";
+        p.appendChild(a);
+        div.appendChild(p);
+    }
     return div;
 }
 
