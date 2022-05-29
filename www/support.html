@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<!--#include file="/api/meta" -->
+
+<body>
+
+<main>
+<article id="support">
+    <section>
+        <h1>Support the Music</h1>
+    </section>
+</article>
+</main>
+
+<script src="/inc/showdown.min.js"></script>
+<script src="/inc/main.js"></script>
+
+<script>
+var converter = new showdown.Converter({"noHeaderId": true, "simpleLineBreaks": true});
+
+function showSupport(supportData) {
+    var page = document.querySelector("article#support");
+    var section;
+    var div;
+    var h2;
+
+    if (supportData.releaseMd) {
+        var section = document.createElement("section");
+        section.className = "col2";
+        div = document.createElement("div");
+        div.innerHTML = converter.makeHtml(supportData.releaseMd);
+        section.appendChild(div);
+
+        div = document.createElement("div");
+        h2 = document.createElement("h2");
+        h2.textContent = supportData.releaseName;
+        div.appendChild(h2);
+        // console.log(supportData.listen);
+        supportData.listen.forEach(l => {
+            var streamer = getStreamer(l);
+            var p = document.createElement("p");
+            var a = document.createElement("a");
+            var icon = document.createElement("img");
+
+            p.className = "iconlist";
+            icon.alt = `Listen on ${streamer.name}`;
+            icon.src = `/img/icon/${streamer.id}.svg`;
+            icon.id = streamer.id;
+            a.href = l;
+            a.target = streamer.id;
+            a.appendChild(icon);
+            a.appendChild(document.createTextNode(`Listen on ${streamer.name}`));
+            p.appendChild(a);
+            div.appendChild(p);
+        });
+        section.appendChild(div);
+        page.appendChild(section);
+    }
+
+    if (supportData.donationMd) {
+        var section = document.createElement("section");
+        section.className = "col2";
+        div = document.createElement("div");
+        div.innerHTML = converter.makeHtml(supportData.donationMd);
+        section.appendChild(div);
+
+        div = document.createElement("div");
+        h2 = document.createElement("h2");
+        h2.textContent = "Tip Jar";
+        div.appendChild(h2);
+
+        Object.keys(supportData.paymentUrl).forEach(u => {
+            var provider = getPayment(supportData.paymentUrl[u]);
+            // console.log(provider);
+            var p = document.createElement("p");
+            var a = document.createElement("a");
+            var icon = document.createElement("img");
+
+            if (supportData.paymentUrl[u]) {
+                p.className = "iconlist";
+                icon.alt = provider.name;
+                icon.src = `/img/icon/${provider.id}.svg`;
+                icon.id = provider.id;
+                a.href = u;
+                a.target = provider.id;
+                a.appendChild(icon);
+                a.appendChild(document.createTextNode(provider.name));
+                p.appendChild(a);
+                div.appendChild(p);
+            }
+        });
+        section.appendChild(div);
+        page.appendChild(section);
+    }
+
+    if (supportData.subscribeMd) {
+        var section = document.createElement("section");
+        section.className = "col2";
+        div = document.createElement("div");
+        div.innerHTML = converter.makeHtml(supportData.subscribeMd);
+        section.appendChild(div);
+
+        div = document.createElement("div");
+        h2 = document.createElement("h2");
+        h2.textContent = "Follow, Like, & Subscribe";
+        div.appendChild(h2);
+        Object.keys(supportData.social).forEach(u => {
+            var socialMedium = getSocialMedium(supportData.social[u]);
+            // console.log(socialMedium);
+            var p = document.createElement("p");
+            var a = document.createElement("a");
+            var icon = document.createElement("img");
+
+            if (supportData.social[u]) {
+                p.className = "iconlist";
+                icon.alt = socialMedium.name;
+                icon.src = `/img/icon/${socialMedium.id}.svg`;
+                icon.id = socialMedium.id;
+                a.href = supportData.social[u];
+                a.target = socialMedium.id;
+                a.appendChild(icon);
+                a.appendChild(document.createTextNode(socialMedium.name));
+                p.appendChild(a);
+                div.appendChild(p);
+            }
+        });
+        section.appendChild(div);
+        page.appendChild(section);
+    }
+}
+
+setTitle(function () {
+    getJsonData("/api/support", showSupport);
+});
+
+</script>

@@ -268,6 +268,7 @@ function gigMapDiv(venueData) {
 }
 
 function extractSpotifyTrackId(shareLink) {
+    console.log(shareLink);
     var reQs, val;
     if (!shareLink) {
         return "";
@@ -358,15 +359,35 @@ function setTitle(callback) {
 
         var nav = document.createElement("nav");
         nav.id = "main";
+        //<div id="accessible-version">
+        //     <a href="/api/">
+        //         <img src="/img/icon/universal-access.svg" id="universal-access" alt="Accessible Version">
+        //         Accessible Version
+        //     </a>
+        // </div>
+        // <span class="material-symbols-outlined">accessibility_new</span>
+        var a;
+        var img;
+        var div = document.createElement("div");
+        div.id = "accessible-version";
+        a = document.createElement("a");
+        a.href = "/api/";
+        img = document.createElement("span");
+        img.className = "material-icons";
+        img.textContent = "accessibility_new";
+        a.appendChild(img);
+        a.appendChild(document.createTextNode("Accessible Version"));
+        div.appendChild(a);
+        nav.appendChild(div);
+
         nav.appendChild(navLink("/", "home", "Home"));
         nav.appendChild(navLink("/shows", "event", "Shows"));
         nav.appendChild(navLink("/music", "album", "New Releases"));
         nav.appendChild(navLink("/songs", "library_music", "All Songs"));
         nav.appendChild(navLink("/about", "menu_book", "About"));
+        nav.appendChild(navLink("/support", "volunteer_activism", "Support"));
 
         var p = document.createElement("p");
-        var a;
-        var img;
         p.id = "social";
         Object.keys(info.social).forEach(soc => {
             if (info.social[soc]) {
@@ -381,7 +402,7 @@ function setTitle(callback) {
             }
         });
         nav.appendChild(p);
-        var payUrl;
+        /* var payUrl;
         var venmoUsername;
 
         if (info.payment && info.payment.venmo) {
@@ -410,7 +431,7 @@ function setTitle(callback) {
             a.appendChild(img);
             p.appendChild(a);
             nav.appendChild(p);
-        }
+        }*/
 
         document.body.insertBefore(nav, document.querySelector("main"));
         document.body.insertBefore(header, nav);
@@ -524,4 +545,168 @@ function embedFbPlayer(url) {
     iframe.allowFullScreen = "true";
     iframe.loading = "lazy";
     return iframe;
+}
+
+function domain(url) {
+    if (!url) {
+        return "";
+    }
+    var reUrl = /.*\:\/\/([^\/]*)(\/|\?|$)/;
+    var results = reUrl.exec(url);
+    if (!results) {
+        return "";
+    }
+    var domain = results[1];
+    // remove any sub-domains
+    var hasSubDomains = domain.lastIndexOf(".", domain.lastIndexOf(".") - 1);
+    if (hasSubDomains > -1) {
+        domain = domain.slice(hasSubDomains + 1);
+    }
+    return domain.charAt(0).toUpperCase() + domain.substr(1);
+}
+
+var streamers = [
+    {
+        "name": "Spotify",
+        "id": "spotify",
+        "pattern": "open.spotify.com"
+    },
+    {
+        "name": "Apple Music",
+        "id": "apple-music",
+        "pattern": "music.apple.com"
+    },
+    {
+        "name": "YouTube Music",
+        "id": "youtube-music",
+        "pattern": "music.youtube.com"
+    },
+    {
+        "name": "Amazon Music",
+        "id": "amazon-music",
+        "pattern": "music.amazon.com"
+    }
+];
+
+function getStreamer(url) {
+    var ii;
+    var len = streamers.length;
+
+    for (ii = 0; ii < len; ii +=1) {
+        if (url.indexOf(streamers[ii].pattern) > -1) {
+            return streamers[ii];
+        }
+    }
+    return {
+        "name": domain(url),
+        "id": "play-audio",
+        "pattern": ""
+    };
+}
+
+var videoProviders = [
+    {
+        "name": "YouTube",
+        "id": "youtube",
+        "pattern": "youtube.com"
+    },
+    {
+        "name": "YouTube",
+        "id": "youtube",
+        "pattern": "youtu.be"
+    },
+    {
+        "name": "Facebook",
+        "id": "facebook-video",
+        "pattern": "facebook.com"
+    }
+];
+
+function getVideoProvider(url) {
+    var ii;
+    var len = videoProviders.length;
+
+    for (ii = 0; ii < len; ii +=1) {
+        if (url.indexOf(videoProviders[ii].pattern) > -1) {
+            return videoProviders[ii];
+        }
+    }
+    return {
+        "name": domain(url),
+        "id": "play-video",
+        "pattern": ""
+    };
+}
+
+var paymentProviders = [
+    {
+        "name": "Venmo",
+        "id": "venmo",
+        "pattern": "venmo.com"
+    }
+];
+
+function getPayment(url) {
+    var ii;
+    var len = paymentProviders.length;
+
+    for (ii = 0; ii < len; ii += 1) {
+        if (url.indexOf(paymentProviders[ii].pattern) > -1) {
+            return paymentProviders[ii];
+        }
+    }
+    return {
+        "name": domain(url),
+        "id": "pay",
+        "pattern": ""
+    };
+}
+
+var socialMedia = [
+    {
+        "name": "Facebook",
+        "id": "facebook",
+        "pattern": "facebook.com"
+    },
+    {
+        "name": "YouTube",
+        "id": "youtube",
+        "pattern": "youtube.com"
+    },
+    {
+        "name": "Spotify",
+        "id": "spotify",
+        "pattern": "spotify.com"
+    },
+    {
+        "name": "Podcast",
+        "id": "podcast",
+        "pattern": "anchor.fm"
+    },
+    {
+        "name": "TikTok",
+        "id": "tiktok",
+        "pattern": "tiktok.com"
+    },
+    {
+        "name": "Instagram",
+        "id": "instagram",
+        "pattern": "instagram.com"
+    }
+];
+
+function getSocialMedium(url) {
+    var ii;
+    var len = socialMedia.length;
+
+    for (ii = 0; ii < len; ii += 1) {
+        if (url.indexOf(socialMedia[ii].pattern) > -1) {
+            return socialMedia[ii];
+        }
+    }
+    return {
+        "name": domain(url),
+        "id": "social",
+        "pattern": ""
+    };
 }

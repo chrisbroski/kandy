@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="256"
+   style="clip-rule:evenodd;fill-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2"
+   version="1.1"
+   viewBox="0 0 256 256"
+   xml:space="preserve"
+   id="svg1250"
+   sodipodi:docname="youtube.svg"
+   width="256"
+   inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs1254" /><sodipodi:namedview
+   id="namedview1252"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   borderlayer="true"
+   inkscape:zoom="1.6612489"
+   inkscape:cx="158.01365"
+   inkscape:cy="121.89625"
+   inkscape:window-width="1404"
+   inkscape:window-height="727"
+   inkscape:window-x="0"
+   inkscape:window-y="23"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="svg1250" />
+<path
+   d="m 128.7865,2.2136974 c 69.8573,0 126.57279,56.7154906 126.57279,126.5728026 0,69.8573 -56.71549,126.57279 -126.57279,126.57279 C 58.929188,255.35929 2.2136974,198.6438 2.2136974,128.7865 2.2136974,58.929188 58.929188,2.2136974 128.7865,2.2136974 Z m 75.80276,88.4911956 c -1.81948,-6.807737 -7.18004,-12.167798 -13.98728,-13.987282 -12.33986,-3.306715 -61.81548,-3.306715 -61.81548,-3.306715 0,0 -49.475631,0 -61.81549,3.306715 -6.80576,1.819484 -12.167799,7.179545 -13.987283,13.987282 -3.305231,12.338377 -3.305231,38.082587 -3.305231,38.082587 0,0 0,25.74323 3.305231,38.08062 1.819484,6.80773 7.181523,12.16978 13.987283,13.98876 12.339859,3.30523 61.81549,3.30523 61.81549,3.30523 0,0 49.47562,0 61.81548,-3.30523 6.80724,-1.81898 12.1678,-7.18103 13.98728,-13.98876 3.30523,-12.33739 3.30523,-38.08062 3.30523,-38.08062 0,0 0,-25.74421 -3.30523,-38.082587 z M 112.9644,152.52038 v -47.46579 l 41.10502,23.73289 z"
+   style="fill:#000000;fill-opacity:1;stroke-width:0.494425"
+   id="path1248" />
+</svg>

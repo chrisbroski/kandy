@@ -33,13 +33,11 @@ EPK Page
 
 ## Bugs
 
-A bundler might be nice. It was break the cache for new js/css and combine showdown.
-
 I think it's time to add browser notifications to gigs and releases.
 
 Have a cookie message that if you say "no" disables all embedded offsite media.
 
-Manage Open Graph/meta data better - make a "head" include with title and meta-data
+If you put a Spotify individual track in album media, it breaks stuff. Allow a track URL.
 
 ## Questions
 

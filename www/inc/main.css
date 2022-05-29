@@ -11,7 +11,7 @@
     font-family: "Material Icons";
     font-weight: normal;
     font-style: normal;
-    font-size: 24px;
+    font-size: 28px;
     display: inline-block;
     line-height: 1;
     text-transform: none;
@@ -127,11 +127,12 @@ body > header button:first-child {
 }
 
 body > nav#main {
-    padding-top: 24px;
+    /* padding-top: 24px; */
     position: fixed;
     top: 0; bottom: 0; left: 0;
     overflow: auto;
     width: 0;
+    min-height: 600px;
     background-color: rgb(var(--color1));
     color: #fff;
     background-image: linear-gradient(45deg, black, transparent);
@@ -381,7 +382,36 @@ div.addthis_tipjar_inline {
     margin: 16px;
 }
 
-#api {
+#accessible-version {
+    position: absolute;
+    bottom: 12px; left: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+#accessible-version a {
+    color: white;
+    line-height: 28px;
+}
+#accessible-version a span {
+    vertical-align: top;
+}
+
+#support-us {
+    position: absolute;
+    top: 12px; right: 12px;
+    color: white;
+    z-index: 2;
+}
+#support-us span {
+    font-size: 32px;
+}
+/* #support-us img {
+    width: 42px; height: 42px;
+    float: left;
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(52deg) brightness(103%) contrast(102%);
+} */
+
+/* #api {
     text-decoration: none;
     position: absolute;
     top: 14px; right: 18px;
@@ -393,9 +423,32 @@ div.addthis_tipjar_inline {
 #api:active, #api:focus {
     opacity: 100%;
     outline: 4px solid rgb(var(--color2));
-}
+} */
 #tip-jar {
     padding: 16px;
+}
+
+/* iconlists */
+p.iconlist > a > img {
+    margin: 2px;
+    width: 40px;
+    height: 40px;
+    float: none;
+    filter: invert(46%) sepia(96%) saturate(1252%) hue-rotate(348deg) brightness(86%) contrast(89%);
+}
+/* section p.iconlist > a > img {
+    filter: invert(36%) sepia(21%) saturate(5292%) hue-rotate(339deg) brightness(86%) contrast(101%);
+}
+section:nth-child(even) p.iconlist > a > img {
+    filter: invert(87%) sepia(27%) saturate(252%) hue-rotate(354deg) brightness(96%) contrast(92%);
+} */
+
+.iconlist {
+    height: 42px;
+}
+.iconlist img {
+    padding-right: 4px;
+    vertical-align: middle;
 }
 
 /* large-screen version */
@@ -455,6 +508,9 @@ div.addthis_tipjar_inline {
         margin: 0 0 40px 0;
         padding: 0 50px;
     }
+    section.col2 > div > *:first-child {
+        margin-top: 0;
+    }
 
     main article h1 {
         margin: 0 0 60px 0;
@@ -483,8 +539,19 @@ div.addthis_tipjar_inline {
         padding-bottom: 40px;
     }
 
-    #api {
+    /* #api {
         top: 48px; right: 56px;
         font-size: 36px;
+    } */
+    #support-us {
+        position: absolute;
+        top: 50px; right: 50px;
+        overflow: hidden;
+        color: white;
+        white-space: nowrap;
+        z-index: 2;
+    }
+    #support-us span {
+        font-size: 48px;
     }
 }

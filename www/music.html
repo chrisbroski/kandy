@@ -6,14 +6,13 @@
 <!--#include file="/api/meta" -->
 
 <body>
-<a href="/api/release" title="Accessible version" id="api">⚙</a>
-
+<a href="/support" id="support-us"><span class="material-icons">volunteer_activism</span></a>
 <main>
 <article></article>
 </main>
 
-<script type="text/javascript" src="/inc/showdown.min.js"></script>
-<script type="text/javascript" src="/inc/main.js?v=2"></script>
+<script src="/inc/showdown.min.js"></script>
+<script src="/inc/main.js?v=2"></script>
 <script>
 function showReleases(releaseData) {
     var article = document.querySelector("article");
@@ -64,10 +63,17 @@ function showReleases(releaseData) {
         div.insertBefore(h2, h3);
 
         // audio embed
+        var spotifyId;
         if (release.audio.spotify) {
-            div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.audio.spotify), "album"));
+            spotifyId = extractSpotifyTrackId(release.audio.spotify);
+            if (spotifyId) {
+                div.appendChild(embedSpotifyPlayer(spotifyId), "album");
+            }
         } else if (release.songs.length === 1) {
-            div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.songs[0].audio.spotify), "track"));
+            spotifyId = extractSpotifyTrackId(release.songs[0].audio.spotify);
+            if (spotifyId) {
+                div.appendChild(embedSpotifyPlayer(spotifyId, "track"));
+            }
         }
         section.appendChild(div);
 
