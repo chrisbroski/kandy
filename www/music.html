@@ -63,18 +63,42 @@ function showReleases(releaseData) {
         div.insertBefore(h2, h3);
 
         // audio embed
-        var spotifyId;
-        if (release.audio.spotify) {
-            spotifyId = extractSpotifyTrackId(release.audio.spotify);
-            if (spotifyId) {
-                div.appendChild(embedSpotifyPlayer(spotifyId), "album");
-            }
-        } else if (release.songs.length === 1) {
-            spotifyId = extractSpotifyTrackId(release.songs[0].audio.spotify);
-            if (spotifyId) {
-                div.appendChild(embedSpotifyPlayer(spotifyId, "track"));
-            }
+        // var spotifyId;
+        // if (release.audio.spotify) {
+        //     spotifyId = extractSpotifyTrackId(release.audio.spotify);
+        //     if (spotifyId) {
+        //         div.appendChild(embedSpotifyPlayer(spotifyId), "album");
+        //     }
+        // } else if (release.songs.length === 1) {
+        //     spotifyId = extractSpotifyTrackId(release.songs[0].audio.spotify);
+        //     if (spotifyId) {
+        //         div.appendChild(embedSpotifyPlayer(spotifyId, "track"));
+        //     }
+        // }
+        var media = release.media;
+        if (media.filter(m => m.type === "audio").length === 0 && release.songs.length === 1) {
+            media = release.songs[0].media;
         }
+        media.forEach(l => {
+            var streamer;
+            var p = document.createElement("p");
+            var a = document.createElement("a");
+            var icon = document.createElement("img");
+
+            if (l.type === "audio") {
+                streamer = getStreamer(l.url);
+                p.className = "iconlist";
+                icon.alt = `Listen on ${streamer.name}`;
+                icon.src = `/img/icon/${streamer.id}.svg`;
+                icon.id = streamer.id;
+                a.href = l.url;
+                a.target = streamer.id;
+                a.appendChild(icon);
+                a.appendChild(document.createTextNode(`Listen on ${streamer.name}`));
+                p.appendChild(a);
+                div.appendChild(p);
+            }
+        });
         section.appendChild(div);
 
         div = document.createElement("div");

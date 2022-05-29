@@ -6,19 +6,7 @@
 <!--#include file="/api/meta" -->
 
 <style>
-iframe.spotify-player-sm {
-    margin: 12px 0;
-    max-width: 300px;
-}
-section.col2 div p > a > img {
-    margin: 0;
-    width: 24px;
-    height: 24px;
-    vertical-align: top;
-}
-section.col2 div p > a {
-    font-weight: bold;
-}
+
 </style>
 <body>
 
@@ -29,6 +17,30 @@ section.col2 div p > a {
 <script src="/inc/showdown.min.js"></script>
 <script src="/inc/main.js?v=2"></script>
 <script>
+
+function getFacebookVideo(release) {
+    var fbVids = release.media.filter(m => m.type === "video" && m.url.indexOf("facebook.com") > -1);
+    if (fbVids.length === 0 && release.songs.length === 1) {
+        fbVids = release.songs[0].media.filter(m => m.type === "video" && m.url.indexOf("facebook.com") > -1);
+    }
+    if (fbVids.length > 0) {
+        return fbVids[0].url;
+    }
+    return "";
+}
+
+function getYoutubeVideo(release) {
+    var ytVids = release.media.filter(m => m.type === "video" && (m.url.indexOf("youtube.com") > -1 || m.url.indexOf("youtu.be") > -1));
+    if (ytVids.length === 0 && release.songs.length === 1) {
+        ytVids = release.songs[0].media.filter(m => {
+            return m.type === "video" && (m.url.indexOf("youtube.com") > -1 || m.url.indexOf("youtu.be") > -1);
+        });
+    }
+    if (ytVids.length > 0) {
+        return ytVids[0].url;
+    }
+    return "";
+}
 
 function showRelease(release) {
     var article = document.querySelector("main article");
@@ -42,14 +54,7 @@ function showRelease(release) {
     if (!releaseName) {
         releaseName = release.songs[0].name;
     }
-    // if (release.songs.length === 1) {
-    //     a = document.createElement("a");
-    //     a.href = `/song?id=${release.songs[0].id}`;
-    //     a.textContent = releaseName;
-    //     h2.appendChild(a);
-    // } else {
-        h2.textContent = releaseName;
-    // }
+    h2.textContent = releaseName;
     section.appendChild(h2);
     var h3 = document.createElement("h3");
     if (release.upcomingRelease) {
@@ -64,74 +69,52 @@ function showRelease(release) {
         div.appendChild(template.content);
     }
 
-    // audio embed
-    if (release.audio.spotify) {
-        div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.audio.spotify), "album"));
-    } else if (release.songs.length === 1) {
-        div.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(release.songs[0].audio.spotify), "track"));
+    var media;
+    if (release.media.filter(m => m.type === "audio").length === 0 && release.songs.length === 1) {
+        media = release.songs[0].media;
+    } else {
+        media = release.media;
     }
-    var p;
-    var icon;
-    if (release.songs.length === 1) {
-        if (release.songs[0].lyrics) {
-            p = document.createElement("p");
-            a = document.createElement("a");
-            a.href = `/song?id=${release.songs[0].id}#lyrics`;
-            a.title = "Lyrics";
-            icon = document.createElement("img");
-            icon.src = "/img/social/lyrics.svg";
-            icon.className = "icon";
-            a.appendChild(icon);
-            p.appendChild(a);
-            p.appendChild(document.createTextNode(" "));
 
-            a = document.createElement("a");
-            a.href = `/song?id=${release.songs[0].id}#lyrics`;
-            a.title = "Lyrics";
-            a.textContent = "Lyrics";
+    media.forEach(l => {
+        var streamer;
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var icon = document.createElement("img");
+
+        if (l.type === "audio") {
+            streamer = getStreamer(l.url);
+            p.className = "iconlist";
+            icon.alt = `Listen on ${streamer.name}`;
+            icon.src = `/img/icon/${streamer.id}.svg`;
+            icon.id = streamer.id;
+            a.href = l.url;
+            a.target = streamer.id;
+            a.appendChild(icon);
+            a.appendChild(document.createTextNode(`Listen on ${streamer.name}`));
             p.appendChild(a);
             div.appendChild(p);
         }
-        if (release.songs[0].video) {
-            if (release.songs[0].video.youtube) {
-                p = document.createElement("p");
-                a = document.createElement("a");
-                a.href = release.songs[0].video.youtube;
-                a.title = "Watch on YouTube";
-                icon = document.createElement("img");
-                icon.src = "/img/social/youtube.svg";
-                icon.className = "icon";
-                a.appendChild(icon);
-                p.appendChild(a);
-                p.appendChild(document.createTextNode(" "));
+    });
 
-                a = document.createElement("a");
-                a.href = release.songs[0].video.youtube;
-                a.title = "Watch on YouTube";
-                a.textContent = "YouTube video";
-                p.appendChild(a);
-                div.appendChild(p);
-            }
-            if (release.songs[0].video.fb) {
-                p = document.createElement("p");
-                a = document.createElement("a");
-                a.href = release.songs[0].video.fb;
-                a.title = "Watch on Facebook";
-                icon = document.createElement("img");
-                icon.src = "/img/social/facebook-video.svg";
-                a.appendChild(icon);
-                p.appendChild(a);
-                p.appendChild(document.createTextNode(" "));
+    media.forEach(l => {
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var icon = document.createElement("img");
 
-                a = document.createElement("a");
-                a.href = release.songs[0].video.fb;
-                a.title = "Watch on Facebook";
-                a.textContent = "Facebook video";
-                p.appendChild(a);
-                div.appendChild(p);
-            }
+        if (l.type === "blog") {
+            p.className = "iconlist";
+            icon.alt = `Read on ${domain(l.url)}`;
+            icon.src = `/img/icon/article.svg`;
+            a.href = l.url;
+            a.target = "_blank";
+            a.appendChild(icon);
+            a.appendChild(document.createTextNode(`Read on ${domain(l.url)}`));
+            p.appendChild(a);
+            div.appendChild(p);
         }
-    }
+    });
+
     section.appendChild(div);
 
     div = document.createElement("div");
@@ -167,20 +150,37 @@ function showRelease(release) {
         article.appendChild(section);
     }
 
-    if (release.video && (release.video.fb || release.video.youtube)) {
+    var facebookVideo = getFacebookVideo(release);
+    var youtubeVideo = getYoutubeVideo(release);
+    if (facebookVideo || youtubeVideo) {
         section = document.createElement("section");
         h2 = document.createElement("h2");
         h2.textContent = "Videos";
         section.appendChild(h2);
 
-        if (release.video.fb) {
-            section.appendChild(embedFbPlayer(release.video.fb));
+        if (facebookVideo) {
+            section.appendChild(embedFbPlayer(facebookVideo));
         }
-        if (release.video.youtube) {
-            section.appendChild(embedYtPlayer(release.video.youtube));
+        if (youtubeVideo) {
+            section.appendChild(embedYtPlayer(youtubeVideo));
         }
         article.appendChild(section);
     }
+
+    // if (release.video && (release.video.fb || release.video.youtube)) {
+    //     section = document.createElement("section");
+    //     h2 = document.createElement("h2");
+    //     h2.textContent = "Videos";
+    //     section.appendChild(h2);
+    //
+    //     if (release.video.fb) {
+    //         section.appendChild(embedFbPlayer(release.video.fb));
+    //     }
+    //     if (release.video.youtube) {
+    //         section.appendChild(embedYtPlayer(release.video.youtube));
+    //     }
+    //     article.appendChild(section);
+    // }
 
     var pre;
     if (release.credits) {

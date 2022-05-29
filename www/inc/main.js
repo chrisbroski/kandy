@@ -505,6 +505,15 @@ function extractYouTubeId(url) {
     if (!url) {
         return "";
     }
+    // first look for querystring v
+    if (url.indexOf("?") > -1) {
+        reQs = new RegExp("[\\?&]v=([^&#]*)");
+        val = reQs.exec(url.slice(url.indexOf("?")));
+        if (val[1]) {
+            return decodeURIComponent(val[1]);
+        }
+    }
+
     // get rid of any search string or hash
     url = removeQs(url);
     url = removeHash(url);
@@ -526,6 +535,7 @@ function extractYouTubeId(url) {
 
 function embedYtPlayer(url) {
     var iframe = document.createElement("iframe");
+    console.log(extractYouTubeId(url));
     iframe.src = `https://www.youtube.com/embed/${extractYouTubeId(url)}`;
     iframe.className = "vid";
     iframe.title = "YouTube video player";

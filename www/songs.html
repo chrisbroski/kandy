@@ -23,17 +23,19 @@
 <script src="/inc/showdown.min.js"></script>
 <script src="/inc/main.js"></script>
 <script>
+function hasAudio(song) {
+    return (song.audio.spotify || song.media.filter(m => m.type === "audio").length > 0);
+}
+
+function hasVideo(song) {
+    return (song.video.youtube || song.video.fb || song.media.filter(m => m.type === "video").length > 0);
+}
+
 function songHasStuff(song) {
-    if (song.desc || song.lyrics) {
+    if (song.desc || song.lyrics || song.story) {
         return true;
     }
-    if (song.audio.spotify || song.audio.youtube) {
-        return true;
-    }
-    if (song.video && (song.video.youtube || song.video.fb)) {
-        return true;
-    }
-    return false;
+    return hasAudio(song) || hasVideo(song);
 }
 
 function showSongs(songData) {
@@ -44,7 +46,7 @@ function showSongs(songData) {
     songData.forEach(function (song) {
         var h3 = document.createElement("h3");
         // only link if more than name, artist, and duration (and genres)
-        // That's desc, lyrics, audio, video
+        // That's desc, lyrics, audio, video, and story
         var a = document.createElement("a");
         var artist = document.createElement("span");
         var icon;
@@ -60,50 +62,35 @@ function showSongs(songData) {
             artist.textContent = ` (${song.artist || bandName})`;
             h3.appendChild(artist);
         }
-        if (song.audio.spotify) {
+        if (hasAudio(song)) {
             icon = document.createElement("img");
-            icon.src = "/img/social/spotify.svg";
+            icon.src = "/img/icon/play-audio.svg";
             icon.className = "icon";
             a = document.createElement("a");
-            a.href = song.audio.spotify;
-            a.title = "Listen on Spotify";
-            a.target = "_blank";
+            a.href = `/song?id=${song.id}#song`;
+            a.title = "Listening options";
+            a.appendChild(icon);
+            h3.appendChild(a);
+        }
+        if (hasVideo(song)) {
+            icon = document.createElement("img");
+            icon.src = "/img/icon/play-video.svg";
+            icon.className = "icon";
+            a = document.createElement("a");
+            a.href = `/song?id=${song.id}#video`;
+            a.title = "Watch options";
             a.appendChild(icon);
             h3.appendChild(a);
         }
         if (song.lyrics) {
             icon = document.createElement("img");
-            icon.src = "/img/social/lyrics.svg";
+            icon.src = "/img/icon/lyrics.svg";
             icon.className = "icon";
             a = document.createElement("a");
             a.href = `/song?id=${song.id}#lyrics`;
             a.title = "Lyrics";
             a.appendChild(icon);
             h3.appendChild(a);
-        }
-        if (song.video) {
-            if (song.video.youtube) {
-                icon = document.createElement("img");
-                icon.src = "/img/social/youtube.svg";
-                icon.className = "icon";
-                a = document.createElement("a");
-                a.href = song.video.youtube;
-                a.title = "Watch on YouTube";
-                a.target = "_blank";
-                a.appendChild(icon);
-                h3.appendChild(a);
-            }
-            if (song.video.fb) {
-                icon = document.createElement("img");
-                icon.src = "/img/social/facebook-video.svg";
-                icon.className = "icon";
-                a = document.createElement("a");
-                a.href = song.video.fb;
-                a.title = "Watch on Facebook";
-                a.target = "_blank";
-                a.appendChild(icon);
-                h3.appendChild(a);
-            }
         }
 
         section.appendChild(h3);

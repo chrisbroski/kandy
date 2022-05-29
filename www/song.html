@@ -30,28 +30,36 @@ h3 {margin: 1em 0; }
 function showSong(songData) {
     var article = document.querySelector("main article");
     var section = document.createElement("section");
+    section.className = "col2";
+    section.id = "song";
+    var div = document.createElement("div");
 
     var h2 = document.createElement("h1");
     h2.textContent = songData.name;
     section.appendChild(h2);
 
     // audio embed
-    if (songData.audio.spotify) {
-        section.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(songData.audio.spotify), "track"));
-    }
+    // if (songData.audio.spotify) {
+    //     section.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(songData.audio.spotify), "track"));
+    // }
     var h3 = document.createElement("h3");
     if (songData.artist && songData.artist !== bandName) {
         h3.textContent = `(${songData.artist})`;
     } else {
         h3.textContent = `Original song by ${bandName}`;
     }
-    section.appendChild(h3);
+    div.appendChild(h3);
 
-    var p;
+    // var p;
+    // if (songData.desc) {
+    //     p = document.createElement("p");
+    //     p.textContent = songData.desc;
+    //     div.appendChild(p);
+    // }
+    var template = document.createElement("template");
     if (songData.desc) {
-        p = document.createElement("p");
-        p.textContent = songData.desc;
-        section.appendChild(p);
+        template.innerHTML = converter.makeHtml(songData.desc);
+        div.appendChild(template.content);
     }
 
     // Releases
@@ -67,13 +75,39 @@ function showSong(songData) {
             a.textContent = `Released on ${r.date}`;
         }
         p.appendChild(a);
-        section.appendChild(p);
+        div.appendChild(p);
     });
+    section.appendChild(div);
+
+    div = document.createElement("div");
+    songData.media.forEach(l => {
+        var streamer;
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var icon = document.createElement("img");
+
+        if (l.type === "audio") {
+            streamer = getStreamer(l.url);
+            p.className = "iconlist";
+            icon.alt = `Listen on ${streamer.name}`;
+            icon.src = `/img/icon/${streamer.id}.svg`;
+            icon.id = streamer.id;
+            a.href = l.url;
+            a.target = streamer.id;
+            a.appendChild(icon);
+            a.appendChild(document.createTextNode(`Listen on ${streamer.name}`));
+            p.appendChild(a);
+            div.appendChild(p);
+        }
+    });
+
+    section.appendChild(div);
     article.appendChild(section);
 
     if (songData.video) {
         if (songData.video.fb || songData.video.youtube) {
             section = document.createElement("section");
+            section.id = "video";
             h2 = document.createElement("h2");
             h2.textContent = "Videos";
             section.appendChild(h2);
@@ -90,6 +124,7 @@ function showSong(songData) {
     var pre;
     if (songData.lyrics) {
         section = document.createElement("section");
+        section.id = "lyrics";
         h2 = document.createElement("h2");
         h2.textContent = 'Lyrics';
         section.appendChild(h2);
@@ -97,6 +132,22 @@ function showSong(songData) {
         pre.textContent = songData.lyrics;
         section.appendChild(pre);
         article.appendChild(section);
+    }
+
+    if (songData.story) {
+        template = document.createElement("template");
+        section = document.createElement("section");
+        template.innerHTML = converter.makeHtml(songData.story);
+        section.appendChild(template.content);
+        article.appendChild(section);
+    }
+    
+    var scrolltoSection;
+    if (location.hash) {
+        scrolltoSection = document.querySelector(location.hash);
+        if (scrolltoSection) {
+            scrolltoSection.scrollIntoView();
+        }
     }
 }
 
