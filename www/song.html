@@ -126,7 +126,11 @@ function showSong(songData) {
         section = document.createElement("section");
         section.id = "lyrics";
         h2 = document.createElement("h2");
-        h2.textContent = 'Lyrics';
+        icon = document.createElement("img");
+        icon.src = "/img/icon/lyrics.svg";
+        icon.className = "icon";
+        h2.appendChild(icon);
+        h2.appendChild(document.createTextNode('Lyrics'));
         section.appendChild(h2);
         var pre = document.createElement("pre");
         pre.textContent = songData.lyrics;
@@ -141,7 +145,7 @@ function showSong(songData) {
         section.appendChild(template.content);
         article.appendChild(section);
     }
-    
+
     var scrolltoSection;
     if (location.hash) {
         scrolltoSection = document.querySelector(location.hash);
