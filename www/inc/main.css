@@ -378,11 +378,15 @@ main section.list h3 img {
 img.icon {
     filter: brightness(0) saturate(100%) invert(40%) sepia(100%) saturate(552%) hue-rotate(345deg) brightness(96%) contrast(88%);
 }
-h2 img.icon {
+section h2 img.icon, section h3 img.icon {
     margin-right: 4px;
     width: 38px; height: 38px;
     filter: brightness(0) saturate(100%) invert(40%) sepia(100%) saturate(552%) hue-rotate(345deg) brightness(96%) contrast(88%);
     vertical-align: baseline;
+}
+section h3 img.icon {
+    width: 32px; height: 32px;
+    vertical-align: -25%;
 }
 
 div.addthis_tipjar_inline {
@@ -438,24 +442,17 @@ div.addthis_tipjar_inline {
 /* iconlists */
 p.iconlist > a > img {
     margin: 2px;
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     float: none;
     filter: invert(46%) sepia(96%) saturate(1252%) hue-rotate(348deg) brightness(86%) contrast(89%);
 }
-/* section p.iconlist > a > img {
-    filter: invert(36%) sepia(21%) saturate(5292%) hue-rotate(339deg) brightness(86%) contrast(101%);
-}
-section:nth-child(even) p.iconlist > a > img {
-    filter: invert(87%) sepia(27%) saturate(252%) hue-rotate(354deg) brightness(96%) contrast(92%);
-} */
-
 .iconlist {
-    height: 42px;
+    height: 32px;
 }
 .iconlist img {
     padding-right: 4px;
-    vertical-align: middle;
+    vertical-align: -40%;
 }
 
 /* large-screen version */

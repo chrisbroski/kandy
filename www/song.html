@@ -38,10 +38,6 @@ function showSong(songData) {
     h2.textContent = songData.name;
     section.appendChild(h2);
 
-    // audio embed
-    // if (songData.audio.spotify) {
-    //     section.appendChild(embedSpotifyPlayer(extractSpotifyTrackId(songData.audio.spotify), "track"));
-    // }
     var h3 = document.createElement("h3");
     if (songData.artist && songData.artist !== bandName) {
         h3.textContent = `(${songData.artist})`;
@@ -50,12 +46,6 @@ function showSong(songData) {
     }
     div.appendChild(h3);
 
-    // var p;
-    // if (songData.desc) {
-    //     p = document.createElement("p");
-    //     p.textContent = songData.desc;
-    //     div.appendChild(p);
-    // }
     var template = document.createElement("template");
     if (songData.desc) {
         template.innerHTML = converter.makeHtml(songData.desc);
@@ -80,6 +70,15 @@ function showSong(songData) {
     section.appendChild(div);
 
     div = document.createElement("div");
+    if (songData.media.filter(m => m.type === "audio").length > 0) {
+        h2 = document.createElement("h3");
+        icon = document.createElement("img");
+        icon.src = "/img/icon/play-audio.svg";
+        icon.className = "icon";
+        h2.appendChild(icon);
+        h2.appendChild(document.createTextNode('Listen'));
+        div.appendChild(h2);
+    }
     songData.media.forEach(l => {
         var streamer;
         var p = document.createElement("p");
