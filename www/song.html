@@ -88,13 +88,13 @@ function showSong(songData) {
         if (l.type === "audio") {
             streamer = getStreamer(l.url);
             p.className = "iconlist";
-            icon.alt = `Listen on ${streamer.name}`;
+            icon.alt = streamer.name;
             icon.src = `/img/icon/${streamer.id}.svg`;
             icon.id = streamer.id;
             a.href = l.url;
             a.target = streamer.id;
             a.appendChild(icon);
-            a.appendChild(document.createTextNode(`Listen on ${streamer.name}`));
+            a.appendChild(document.createTextNode(streamer.name));
             p.appendChild(a);
             div.appendChild(p);
         }
