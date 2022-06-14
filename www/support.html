@@ -73,9 +73,7 @@ function showSupport(supportData) {
         div.appendChild(h2);
 
         Object.keys(supportData.paymentUrl).forEach(u => {
-            console.log(supportData.paymentUrl[u]);
             var provider = getPayment(supportData.paymentUrl[u]);
-            // console.log(provider);
             var p = document.createElement("p");
             var a = document.createElement("a");
             var icon = document.createElement("img");
