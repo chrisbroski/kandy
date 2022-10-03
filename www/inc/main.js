@@ -442,23 +442,6 @@ function setTitle(callback) {
     });
 }
 
-function ord(num) {
-    var sup = document.createElement("sup");
-    var ordText = "th";
-    num = num.toString(10);
-    if (num.slice(-1) === "1") {
-        ordText = "st";
-    }
-    if (num.slice(-1) === "2") {
-        ordText = "nd";
-    }
-    if (num.slice(-1) === "3") {
-        ordText = "rd";
-    }
-    sup.textContent = ordText;
-    return sup;
-}
-
 function dateFormat(date) {
     var text = document.createDocumentFragment();
     if (typeof date === "string") {
