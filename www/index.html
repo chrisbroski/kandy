@@ -28,6 +28,10 @@ function showAnnouncements(announcementData) {
             p = document.createElement("p");
             p.appendChild(embedSpotifyPlayer(a.spotifyTrackId, "track"));
             announcement.appendChild(p);
+        } else if (a.spotifyAlbumId) {
+            p = document.createElement("p");
+            p.appendChild(embedSpotifyPlayer(a.spotifyAlbumId, "album"));
+            announcement.appendChild(p);
         }
         marquee.appendChild(announcement);
     });
