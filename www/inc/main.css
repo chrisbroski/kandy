@@ -41,7 +41,9 @@ html {
 
 body {
     margin: 0; padding-top: 56px;
-    background: white url(/photo/bg3.jpeg) no-repeat;
+    background-color: white;
+    background-image: var(--background-image);
+    background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
     background-position: top center;
