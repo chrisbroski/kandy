@@ -97,15 +97,15 @@ function showShows(info) {
 function showMusic(release) {
     var article = document.createElement("article");
     release = release[0];
+    if (!release) {
+        return;
+    }
     section = document.createElement("section");
     section.className = "col2";
 
-    // var h1 = document.createElement("h1");
-    // h1.textContent = "Latest Release";
-    // section.appendChild(h1);
-
     div = document.createElement("div");
     div.innerHTML = converter.makeHtml(release.desc);
+
     h3 = document.createElement("h3");
     if (release.upcomingRelease) {
         h3.textContent = "Releasing on ";
