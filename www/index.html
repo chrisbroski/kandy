@@ -6,7 +6,6 @@
 <!--#include file="/api/meta" -->
 
 <body>
-<a href="/support" id="support-us"><span class="material-icons">volunteer_activism</span></a>
 <main id="home">
 <article></article>
 
@@ -148,5 +147,5 @@ function showMusic(release) {
 
 setTitle(function () {
     getJsonData("/api/site/", showBandInfo);
-});
+}, true);
 </script>

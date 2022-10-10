@@ -338,7 +338,7 @@ var social = {
 };
 
 var bandName;
-function setTitle(callback) {
+function setTitle(callback, supportLink) {
     getJsonData("/api/band/", function (info) {
         // document.title = `${document.title} - ${info.name}`;
         bandName = info.name;
@@ -359,13 +359,6 @@ function setTitle(callback) {
 
         var nav = document.createElement("nav");
         nav.id = "main";
-        //<div id="accessible-version">
-        //     <a href="/api/">
-        //         <img src="/img/icon/universal-access.svg" id="universal-access" alt="Accessible Version">
-        //         Accessible Version
-        //     </a>
-        // </div>
-        // <span class="material-symbols-outlined">accessibility_new</span>
         var a;
         var img;
         var div = document.createElement("div");
@@ -381,11 +374,25 @@ function setTitle(callback) {
         nav.appendChild(div);
 
         nav.appendChild(navLink("/", "home", "Home"));
-        nav.appendChild(navLink("/shows", "event", "Shows"));
-        nav.appendChild(navLink("/music", "album", "New Releases"));
-        nav.appendChild(navLink("/songs", "library_music", "All Songs"));
-        nav.appendChild(navLink("/about", "menu_book", "About"));
-        nav.appendChild(navLink("/support", "volunteer_activism", "Support"));
+        if (info.upcomingGigs) {
+            nav.appendChild(navLink("/shows", "event", "Shows"));
+        } else {
+            if (info.pastGigs) {
+                nav.appendChild(navLink("/pas", "event", "Shows"));
+            }
+        }
+        if (info.releases) {
+            nav.appendChild(navLink("/music", "album", "New Releases"));
+        }
+        if (info.songs) {
+            nav.appendChild(navLink("/songs", "library_music", "All Songs"));
+        }
+        if (info.about) {
+            nav.appendChild(navLink("/about", "menu_book", "About"));
+        }
+        if (info.support) {
+            nav.appendChild(navLink("/support", "volunteer_activism", "Support"));
+        }
 
         var p = document.createElement("p");
         p.id = "social";
@@ -402,36 +409,19 @@ function setTitle(callback) {
             }
         });
         nav.appendChild(p);
-        /* var payUrl;
-        var venmoUsername;
 
-        if (info.payment && info.payment.venmo) {
-            venmoUsername = info.payment.venmo;
-            if (venmoUsername.slice(0, 1) === '@') {
-                venmoUsername = venmoUsername.slice(1);
-            }
-            payUrl = `https://account.venmo.com/u/${venmoUsername}`;
-            p = document.createElement("p");
-            p.id = "tip-jar";
-            icon = document.createElement("span");
-            icon.className = "material-icons";
-            icon.textContent = "paid";
-            p.appendChild(icon);
-            p.appendChild(document.createTextNode(` Tip Jar`));
-            nav.appendChild(p);
-
-            p = document.createElement("p");
-            p.id = "payment";
-            a = document.createElement("a");
-            a.target = "_tip";
-            a.href = payUrl;
-            img = document.createElement("img");
-            img.alt = "Venmo";
-            img.src = `/img/social/venmo.svg`;
-            a.appendChild(img);
-            p.appendChild(a);
-            nav.appendChild(p);
-        }*/
+        var supportUs;
+        var supportIcon;
+        if (supportLink && info.support) {
+            supportUs = document.createElement("a");
+            supportUs.id = "support-us";
+            supportUs.href = "/support";
+            supportIcon = document.createElement("span");
+            supportIcon.className = "material-icons";
+            supportIcon.textContent = "volunteer_activism";
+            supportUs.appendChild(supportIcon);
+            document.body.insertBefore(supportUs, document.querySelector("main"));
+        }
 
         document.body.insertBefore(nav, document.querySelector("main"));
         document.body.insertBefore(header, nav);

@@ -54,54 +54,58 @@ function showSong(songData) {
 
     // Releases
     var a;
-    songData.releases.forEach(function (r) {
-        p = document.createElement("p");
-        a = document.createElement("a");
-        a.href = `/release?id=${r.id}`;
-        if (r.name) {
-            p.textContent = `Released ${r.date} on `;
-            a.textContent = r.name;
-        } else {
-            a.textContent = `Released on ${r.date}`;
-        }
-        p.appendChild(a);
-        div.appendChild(p);
-    });
-    section.appendChild(div);
-
-    div = document.createElement("div");
-    if (songData.media.filter(m => m.type === "audio").length > 0) {
-        h2 = document.createElement("h3");
-        icon = document.createElement("img");
-        icon.src = "/img/icon/play-audio.svg";
-        icon.className = "icon";
-        h2.appendChild(icon);
-        h2.appendChild(document.createTextNode('Listen'));
-        div.appendChild(h2);
-    }
-    songData.media.forEach(l => {
-        var streamer;
-        var p = document.createElement("p");
-        var a = document.createElement("a");
-        var icon = document.createElement("img");
-
-        if (l.type === "audio") {
-            streamer = getStreamer(l.url);
-            p.className = "iconlist";
-            icon.alt = streamer.name;
-            icon.src = `/img/icon/${streamer.id}.svg`;
-            icon.id = streamer.id;
-            a.href = l.url;
-            a.target = streamer.id;
-            a.appendChild(icon);
-            a.appendChild(document.createTextNode(streamer.name));
+    if (songData.releases && songData.releases.length > 0) {
+        songData.releases.forEach(function (r) {
+            p = document.createElement("p");
+            a = document.createElement("a");
+            a.href = `/release?id=${r.id}`;
+            if (r.name) {
+                p.textContent = `Released ${r.date} on `;
+                a.textContent = r.name;
+            } else {
+                a.textContent = `Released on ${r.date}`;
+            }
             p.appendChild(a);
             div.appendChild(p);
-        }
-    });
+        });
+        section.appendChild(div);
+    }
 
-    section.appendChild(div);
-    article.appendChild(section);
+    if (songData.media && songData.media.length > 0) {
+        div = document.createElement("div");
+        if (songData.media.filter(m => m.type === "audio").length > 0) {
+            h2 = document.createElement("h3");
+            icon = document.createElement("img");
+            icon.src = "/img/icon/play-audio.svg";
+            icon.className = "icon";
+            h2.appendChild(icon);
+            h2.appendChild(document.createTextNode('Listen'));
+            div.appendChild(h2);
+        }
+        songData.media.forEach(l => {
+            var streamer;
+            var p = document.createElement("p");
+            var a = document.createElement("a");
+            var icon = document.createElement("img");
+
+            if (l.type === "audio") {
+                streamer = getStreamer(l.url);
+                p.className = "iconlist";
+                icon.alt = streamer.name;
+                icon.src = `/img/icon/${streamer.id}.svg`;
+                icon.id = streamer.id;
+                a.href = l.url;
+                a.target = streamer.id;
+                a.appendChild(icon);
+                a.appendChild(document.createTextNode(streamer.name));
+                p.appendChild(a);
+                div.appendChild(p);
+            }
+        });
+
+        section.appendChild(div);
+        article.appendChild(section);
+    }
 
     if (songData.video) {
         if (songData.video.fb || songData.video.youtube) {

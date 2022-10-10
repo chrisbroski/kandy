@@ -6,7 +6,6 @@
 <!--#include file="/api/meta" -->
 
 <body>
-<a href="/support" id="support-us"><span class="material-icons">volunteer_activism</span></a>
 <main id="about">
 <article>
     <section>
@@ -74,5 +73,5 @@ function showAbout(aboutData) {
 
 setTitle(function () {
     getJsonData("/api/band", showAbout);
-});
+}, true);
 </script>
