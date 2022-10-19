@@ -261,8 +261,25 @@ function gigMapDiv(venueData) {
     var iframe = document.createElement("iframe");
     iframe.className = "map";
 
+    var q = [];
+    if (!venueData.add1) {
+        q.push(encodeURIComponent(venueData.name));
+    }
+    if (venueData.add1) {
+        q.push(encodeURIComponent(venueData.add1));
+    }
+    if (venueData.add2) {
+        q.push(encodeURIComponent(venueData.add2));
+    }
+    q.push(encodeURIComponent(venueData.city));
+    q.push(encodeURIComponent(venueData.state));
+    if (venueData.zip) {
+        q.push(encodeURIComponent(venueData.zip));
+    }
+
     iframe.loading = "lazy";
-    iframe.src = `https://www.google.com/maps/embed/v1/place?q=${encodeURIComponent(venueData.name)}%2C+${encodeURIComponent(venueData.city)}+${encodeURIComponent(venueData.state)}&key=${venueData.MAP_KEY}`;
+    iframe.src = `https://www.google.com/maps/embed/v1/place?q=${q.join("+")}&key=${venueData.MAP_KEY}`;
+
     div.appendChild(iframe);
     return div;
 }
