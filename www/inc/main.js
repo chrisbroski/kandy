@@ -436,6 +436,7 @@ function setTitle(callback, supportLink) {
             supportIcon = document.createElement("span");
             supportIcon.className = "material-icons";
             supportIcon.textContent = "volunteer_activism";
+            supportIcon.title = "Support the Music";
             supportUs.appendChild(supportIcon);
             document.body.insertBefore(supportUs, document.querySelector("main"));
         }
