@@ -351,7 +351,8 @@ var social = {
     "instagram": {"icon": "instagram.svg", "name": "Instagram"},
     "youtube": {"icon": "youtube.svg", "name": "YouTube"},
     "podcast": {"icon": "podcast.svg", "name": "Podcast"},
-    "tiktok": {"icon": "tiktok.svg", "name": "Tiktok"}
+    "tiktok": {"icon": "tiktok.svg", "name": "Tiktok"},
+    "apple": {"icon": "apple-music.svg", "name": "Apple Music"}
 };
 
 var bandName;
@@ -693,6 +694,11 @@ var socialMedia = [
         "name": "Instagram",
         "id": "instagram",
         "pattern": "instagram.com"
+    },
+    {
+        "name": "Apple Music",
+        "id": "apple-music",
+        "pattern": "music.apple.com"
     }
 ];
 
